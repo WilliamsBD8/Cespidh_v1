@@ -1,0 +1,35 @@
+.myBackground {
+    background-color: #262626 !important;
+}
+
+.card-2 {
+    padding: 4px 10px 4px 10px !important;
+}
+
+.card-3 {
+    padding: 15px 10px 4px 15px !important;
+}
+
+.pruebas .content-right {
+    float: none !important;
+    width: 100% !important;
+}
+
+.icons-pruebas {
+    display: flex;
+    justify-content: center;
+}
+
+.icons-pruebas a {
+    font-weight: 900 !important;
+}
+
+.pruebas-anexos .app-file-content-logo {
+    display: flex;
+    justify-content: center;
+}
+
+.pruebas-anexos .app-file-content-logo i {
+    padding: 50px 0 50px 0;
+    font-size: 40px;
+}

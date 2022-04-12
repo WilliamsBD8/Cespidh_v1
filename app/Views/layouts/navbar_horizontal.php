@@ -79,9 +79,9 @@
                     <li><a href="<?= base_url() ?>/home"><i class="material-icons">home</i><span>Home</span></a></li>
                     <?php foreach (menu() as $item): ?>
                         <li>
-                            <a class="dropdown-menu <?= isActive(urlOption($item->id)); ?>"
+                            <a class="<?= countMenu($item->id) ? 'dropdown-menu':''?> <?= isActive(urlOption($item->id)); ?>"
                             href="<?= countMenu($item->id) ? urlOption() : urlOption($item->id) ?>"
-                                data-target="TemplatesDropdown">
+                                data-target="<?= str_replace(' ', '',$item->option) ?>">
                                 <i class="material-icons"><?= $item->icon ? $item->icon : 'filter_tilt_shift' ?></i>
                                 <span>
                                     <span class="dropdown-title" data-i18n="Templates"><?= $item->option ?></span>
@@ -91,7 +91,7 @@
                                 </span>
                             </a>
                             <?php if (countMenu($item->id)): ?>
-                                <ul class="dropdown-content dropdown-horizontal-list" id="TemplatesDropdown">
+                                <ul class="dropdown-content dropdown-horizontal-list" id="<?= str_replace(' ', '',$item->option) ?>">
                                     <?php foreach (submenu($item->id) as $submenu): ?>
                                         <li data-menu=""><a href="<?=urlOption($submenu->id) ?>"><span data-i18n="Modern Menu"><?= $submenu->option ?></span></a>
                                         </li>

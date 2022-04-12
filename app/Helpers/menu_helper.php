@@ -9,6 +9,7 @@ function menu()
     $menu = new Menu();
     if (session()->get('user')->role_id == 1) {
         $data = $menu->where(['type' => 'primario', 'status' => 'active'])
+            ->orderBy('position', 'ASC')
             ->get()
             ->getResult();
     } else {
@@ -18,6 +19,7 @@ function menu()
             ->where('menus.type', 'primario')
             ->join('menus', 'menus.id = permissions.menu_id')
             ->join('roles', 'roles.id = permissions.role_id')
+            ->orderBy('position', 'ASC')
             ->get()
             ->getResult();
     }
@@ -29,8 +31,9 @@ function submenu($refences)
     $menu = new Menu();
     if (session()->get('user')->role_id == 1) {
         $data = $menu->where(['type' => 'secundario', 'status' => 'active', 'references' => $refences])
+            ->orderBy('position', 'ASC')
             ->get()
-                ->getResult();
+            ->getResult();
     } else {
         $permission = new Permission();
         $data = $permission->select('menus.*')
@@ -38,6 +41,7 @@ function submenu($refences)
             ->where('menus.type', 'secundario')
             ->join('menus', 'menus.id = permissions.menu_id')
             ->join('roles', 'roles.id = permissions.role_id')
+            ->orderBy('position', 'ASC')
             ->get()
             ->getResult();
     }

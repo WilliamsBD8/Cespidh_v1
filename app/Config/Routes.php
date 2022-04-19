@@ -46,7 +46,7 @@ $routes->post('/config/(:segment)', 'ConfigController::index/$1');
 $routes->get('/config/(:segment)', 'ConfigController::index/$1');
 $routes->post('/table/(:segment)', 'TableController::index/$1');
 $routes->get('/table/(:segment)', 'TableController::index/$1');
-
+$routes->get('/ciudadanos', 'CiudadanoController::index');
 
 /**
  * --------------------------------------------------------------------

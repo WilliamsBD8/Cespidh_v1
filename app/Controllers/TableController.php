@@ -28,14 +28,27 @@ class TableController extends BaseController
         if($component) {
             $this->crud->setTable($component[0]->table);
             switch ($component[0]->table) {
-                case 'pelicula':
-                    $this->crud->setRelation('categoria_idcategoria', 'categoria', 'titulo');
-                    $this->crud->setRelation('clasificacion_idclasificacion', 'clasificacion', 'rango');
+                case 'documento_tipo':
+                    $this->crud->displayAs(['descripcion' => 'Descripción', 'abreviacion' => 'Abreviación']);
                     break;
                 
-                default:
-                    # code...
+                case 'secciones':
+                    $this->crud->displayAs(['formulario_prueba_id' => 'Formulario', 'title' => 'Título']);
+                    $this->crud->setRelation('formulario_prueba_id', 'formularios', 'title');
                     break;
+
+                case 'preguntas':
+                    $this->crud->displayAs(['secciones_id' => 'Secciones', 'tipo_pregunta_id' => 'Tipo de pregunta', 'formulario_id' => 'Formulario', 'pregunta_padre_id' => 'Pregunta general', 'descripcion' => 'Descripción', 'titulo' => 'Título']);
+                    $this->crud->setRelation('secciones_id', 'secciones', 'title'); 
+                    $this->crud->setRelation('tipo_pregunta_id', 'tipo_pregunta', 'tipo');
+                    $this->crud->setRelation('formulario_id', 'formularios', 'title');  
+                    break;
+
+                case 'formularios':                    
+                    $this->crud->displayAs(['documento_tipo_id_tipo' => 'Tipo de documento', 'title' => 'Título']);
+                    $this->crud->setRelation('documento_tipo_id_tipo', 'documento_tipo', '{descripcion} - {abreviacion}'); 
+                break;
+            
             }
             $output = $this->crud->render();
             if (isset($output->isJSONResponse) && $output->isJSONResponse) {

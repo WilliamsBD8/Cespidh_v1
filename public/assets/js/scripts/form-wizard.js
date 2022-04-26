@@ -1,6 +1,7 @@
 // Form Wizard / Stepper
 
-for (let i = 1; i <= 4; i++) {
+
+for (var i = 0; i < 20; i++) {
     var linearStepper = document.querySelector('#linearStepper' + i);
     var linearStepperInstace = new MStepper(linearStepper, {
         firstActive: 0,

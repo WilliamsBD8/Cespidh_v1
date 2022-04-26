@@ -48,10 +48,44 @@ function submenu($refences)
     return $data;
 }
 
+function submenuTercero($refences)
+{
+    $menu = new Menu();
+    if (session()->get('user')->role_id == 1) {
+        $data = $menu->where(['type' => 'tercero', 'status' => 'active', 'references' => $refences])
+            ->orderBy('position', 'ASC')
+            ->get()
+            ->getResult();
+    } else {
+        $permission = new Permission();
+        $data = $permission->select('menus.*')
+            ->where('role_id', session()->get('user')->role_id)
+            ->where('menus.type', 'tercero')
+            ->join('menus', 'menus.id = permissions.menu_id')
+            ->join('roles', 'roles.id = permissions.role_id')
+            ->orderBy('position', 'ASC')
+            ->get()
+            ->getResult();
+    }
+    return $data;
+}
+
 function countMenu($references)
 {
     $menu = new Menu();
     $data = $menu->where(['type' => 'secundario', 'status' => 'active', 'references' => $references])
+        ->get()
+        ->getResult();
+    if (count($data) > 0) {
+        return true;
+    }
+    return false;
+}
+
+function countMenuTercero($references)
+{
+    $menu = new Menu();
+    $data = $menu->where(['type' => 'tercero', 'status' => 'active', 'references' => $references])
         ->get()
         ->getResult();
     if (count($data) > 0) {

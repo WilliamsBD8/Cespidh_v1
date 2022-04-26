@@ -26,7 +26,7 @@
     <!-- END: VENDOR CSS-->
     <!-- BEGIN: Page Level CSS-->
     
-    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/materialize.css">
     <!-- <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/themes/horizontal-menu-template/materialize.css"> -->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/themes/horizontal-menu-template/style.css">
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/layouts/style-horizontal.css">

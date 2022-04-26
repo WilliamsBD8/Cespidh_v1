@@ -92,8 +92,16 @@
                             </a>
                             <?php if (countMenu($item->id)): ?>
                                 <ul class="dropdown-content dropdown-horizontal-list" id="<?= str_replace(' ', '',$item->option) ?>">
-                                    <?php foreach (submenu($item->id) as $submenu): ?>
-                                        <li data-menu=""><a href="<?=urlOption($submenu->id) ?>"><span data-i18n="Modern Menu"><?= $submenu->option ?></span></a>
+                                    <?php foreach (submenu($item->id) as $key => $submenu): ?>
+                                        <li <?= countMenuTercero($submenu->id) > 0 ? 'class="dropdown menu dropdown-submenu"':'' ?> data-menu="dropdown-submenu"><a <?= countMenuTercero($submenu->id) > 0 ? 'class="dropdownSub-menu"':''?> href="<?= countMenuTercero($submenu->id) ? urlOption() : urlOption($submenu->id) ?>" data-target="submenu_<?= $key ?>"><span data-i18n="submenu_<?= $key ?>_<?= $key_algo ?>"><?= $submenu->option ?><?= countMenuTercero($submenu->id) > 0 ? '<i class="material-icons right">chevron_right</i></span>':'' ?></a>
+                                            <?php if (countMenuTercero($submenu->id)): ?>
+                                                <ul class="dropdown-content dropdown-horizontal-list" id="submenu_<?= $key ?>">
+                                                    <?php foreach(submenuTercero($submenu->id) as $tercero): ?>
+                                                        <li data-menu=""><a href="<?= urlOption($tercero->id) ?>"><span data-i18n="Invoice List"><?= $tercero->option ?></span></a>
+                                                        </li>
+                                                    <?php endforeach ?>
+                                                </ul>
+                                            <?php endif ?>
                                         </li>
                                     <?php endforeach ?>
                                 </ul>

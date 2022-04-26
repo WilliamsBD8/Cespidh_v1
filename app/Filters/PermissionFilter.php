@@ -21,6 +21,8 @@ class PermissionFilter implements FilterInterface
         $method =  $request->uri->getSegment(2);
         $permission = new Permission();
         if($url == 'table' || $url == 'config') {
+            if(!empty($request->uri->getSegment(3)))
+                $method .= '/'.$request->uri->getSegment(3);
             $data = $permission->select('*')
                 ->join('menus', 'menus.id = permissions.menu_id')
                 ->join('roles', 'roles.id = permissions.role_id')

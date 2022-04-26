@@ -33,3 +33,17 @@
     padding: 50px 0 50px 0;
     font-size: 40px;
 }
+
+.div-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.div-center button {
+    margin: 0 5px 0 5px;
+}
+
+.menu.dropdown-submenu>a:after {
+    display: none !important;
+}

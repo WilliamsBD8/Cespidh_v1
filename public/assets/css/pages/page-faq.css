@@ -64,7 +64,8 @@
     border-bottom: 1px solid #eceff1;
 }
 
-#faq .categories-collapsible li.active .collapsible-header i,
+#faq .categories-collapsible li.active .collapsible-header.principal i,
+#faq .categories-collapsible.secundario li.active .collapsible-header i,
 #faq-detail .categories-collapsible li.active .collapsible-header i {
     -webkit-transform: rotate(90deg);
     -ms-transform: rotate(90deg);

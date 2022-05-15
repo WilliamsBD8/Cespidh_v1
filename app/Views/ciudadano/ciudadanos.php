@@ -43,7 +43,6 @@
     <div class="col s12">
       <div class="container">
         <div class="section section-data-tables">
-          <!-- Page Length Options -->
           <div class="row">
             <div class="col s12">
                 <div class="card-3" id="faq">
@@ -62,287 +61,329 @@
                                             <ul class="collapsible categories-collapsible">
                                               <?php foreach($formularios as $key => $formulario): ?>
                                                 <li class="">
-                                                    <div class="collapsible-header">
-                                                      <?= $formulario->descripcion ?>
-                                                      <i class="material-icons">keyboard_arrow_right </i>
-                                                    </div>
-                                                    <div class="collapsible-body">
-                                                      <ul class="stepper linear" id="linearStepper<?= $key ?>">
-                                                        <?php foreach($formulario->secciones as $key_2 => $seccion): ?>
-                                                          <li class="step<?= $key_2 == 0 ? ' active': '' ?>">
-                                                            <div class="step-title waves-effect"><?= mb_strtoupper($seccion->title, 'utf-8') ?></div>
-                                                            <div class="step-content">
-                                                                <div class="row">
+                                                  <div class="collapsible-header principal">
+                                                    <?= $formulario->descripcion.' - '.$formulario->title ?>
+                                                    <i class="material-icons">keyboard_arrow_right </i>
+                                                  </div>
+                                                  <div class="collapsible-body">
+                                                    <form method="POST" action="<?= base_url(['cespidh', 'create', 'document']) ?>" enctype="multipart/form-data">
+                                                        <input type="hidden" value="<?= $formulario->documento_tipo_id_tipo ?>" name="tipo_documento">
+                                                        <input type="hidden" value="<?= $formulario->id ?>" name="id_formulario">
+                                                        <ul class="stepper linear" id="linearStepper<?= $key ?>">
+                                                          <?php foreach($formulario->secciones as $key_2 => $seccion): ?>
+                                                            <li class="step<?= $key_2 == 0 ? ' active': '' ?>">
+                                                              <div class="step-title waves-effect"><?= mb_strtoupper($seccion->title, 'utf-8') ?></div>
+                                                              <div class="step-content">
+                                                                  <div class="row">
                                                                     <?php foreach($seccion->preguntas as $key_3 => $pregunta): ?>
-                                                                      <?php if($pregunta->tipo_pregunta_id == 1): ?>  <!-- Pregunta Abierta -->
-                                                                        <div class="input-field col m6 s12">
-                                                                            <label for="text_<?= $pregunta->id ?>"><?= $pregunta->pregunta ?>: <?= $pregunta->obligatorio  == 'Si' ? '<span class="red-text">*</span>':'' ?></label>
-                                                                            <input type="text" id="text_<?= $pregunta->id ?>" name="firstName1" class="validate" <?= $pregunta->obligatorio  == 'Si' ? 'required':'' ?> placeholder="<?= $pregunta->descripcion ?>">
-                                                                        </div>
-                                                                      <?php elseif($pregunta->tipo_pregunta_id == 2): ?> <!-- Pregunta Select -->
-                                                                        <div class="input-field col s12">
-                                                                          <select>
-                                                                            <option value="" disabled selected>Seleccion opción</option>
-                                                                            <?php foreach($pregunta->detalle as $detalle): ?>
-                                                                              <option value="1"><?= $detalle->description ?></option>
-                                                                            <?php endforeach ?>
-                                                                          </select>
-                                                                          <label><?= $pregunta->pregunta ?></label>
-                                                                        </div>
-                                                                      <?php elseif($pregunta->tipo_pregunta_id == 3): ?> <!-- Pregunta Radio -->
-                                                                        <ul class="collapsible categories-collapsible">
-                                                                          <li class="">
-                                                                              <div class="collapsible-header"><?= $pregunta->pregunta ?><i class="material-icons">
-                                                                                      keyboard_arrow_right </i></div>
-                                                                              <div class="collapsible-body">
-                                                                                <div class="row">
-                                                                                  <?php foreach($pregunta->detalle as $detalle): ?>
-                                                                                    <p>
-                                                                                      <label>
-                                                                                        <input type="radio" name="group1" class="with-gap"/>
-                                                                                        <span><?= $detalle->description ?></span>
-                                                                                      </label>
-                                                                                    </p>
-                                                                                    <div class="pl-3">
-                                                                                      <?php foreach($detalle->detalle as $detalleHijo): ?>
-                                                                                        <?php if($detalleHijo->tipo_pregunta_id == 3): ?>
-                                                                                          <p>
-                                                                                            <label>
-                                                                                              <input type="radio" name="group2" class="with-gap"/>
-                                                                                              <span><?= $detalleHijo->description ?></span>
-                                                                                            </label>
-                                                                                          </p>
-                                                                                        <?php elseif($detalleHijo->tipo_pregunta_id == 4): ?>
-                                                                                          <p>
-                                                                                            <label>
-                                                                                              <input type="checkbox" class="filled-in"/>
-                                                                                              <span><?= $detalleHijo->description ?></span>
-                                                                                            </label>
-                                                                                          </p>
-                                                                                        <?php endif ?>
+                                                                      <div class="container">
+                                                                        <?php if($pregunta->tipo_pregunta_id == 1): ?>  <!-- Pregunta Abierta -->
+                                                                          <div class="input-field col m6 s12 ">
+                                                                              <label for="text_<?= $pregunta->id ?>"><?= $pregunta->pregunta ?> <?= $pregunta->obligatorio  == 'Si' ? ':<span class="red-text">*</span>':'' ?></label>
+                                                                              <input type="text" id="text_<?= $pregunta->id ?>" name="<?= $pregunta->campo_formulario?>" class="validate" <?= $pregunta->obligatorio  == 'Si' ? 'required':'' ?> <?= $pregunta->descripcion ? 'placeholder="'.$pregunta->descripcion .'"':'' ?>>
+                                                                          </div>
+                                                                        <?php elseif($pregunta->tipo_pregunta_id == 2): ?> <!-- Pregunta Select -->
+                                                                          <div class="input-field col s12">
+                                                                            <select name="<?= $pregunta->campo_formulario?>" <?= $pregunta->obligatorio  == 'Si' ? 'required':'' ?>>
+                                                                              <option value="" disabled selected>Seleccion opción</option>
+                                                                              <?php foreach($pregunta->detalle as $detalle): ?>
+                                                                                <option value="<?= $detalle->id ?>"><?= $detalle->description ?></option>
+                                                                              <?php endforeach ?>
+                                                                            </select>
+                                                                            <label><?= $pregunta->pregunta ?>:<?= $pregunta->obligatorio  == 'Si' ? '<span class="red-text">*</span>':'' ?></label>
+                                                                          </div>
+                                                                        <?php elseif($pregunta->tipo_pregunta_id == 3): ?> <!-- Pregunta Radio -->
+                                                                          <div class="col s12 ">
+                                                                            <ul class="collapsible categories-collapsible secundario">
+                                                                              <li class="active">
+                                                                                  <div class="collapsible-header"><?= $pregunta->pregunta ?><i class="material-icons">
+                                                                                          keyboard_arrow_right </i></div>
+                                                                                  <div class="collapsible-body">
+                                                                                    <div class="row">
+                                                                                      <?php foreach($pregunta->detalle as $key_detalle => $detalle): ?>
+                                                                                        <p>
+                                                                                          <label>
+                                                                                            <input type="radio" <?= $pregunta->obligatorio  == 'Si' || $key_detalle == 0 ? 'required="required"':'' ?> value="<?= $detalle->id ?>" name="<?= $pregunta->campo_formulario?>" class="with-gap"/>
+                                                                                            <span><?= $detalle->description ?></span>
+                                                                                          </label>
+                                                                                        </p>
+                                                                                        <div class="pl-3">
+                                                                                          <?php foreach($detalle->detalle as $detalleHijo): ?>
+                                                                                            <?php if($detalleHijo->tipo_pregunta_id == 1): ?>
+                                                                                              <div class="input-field col s12 ">
+                                                                                                  <label for="text_<?= $detalleHijo->id ?>"><?= $detalleHijo->description ?></label>
+                                                                                                  <input type="text" id="text_<?= $detalleHijo->id ?>" name="<?= $detalleHijo->campo_formulario?>" class="validate"  <?= $pregunta->descripcion ? '':'' ?>>
+                                                                                              </div>
+                                                                                            <?php elseif($detalleHijo->tipo_pregunta_id == 3): ?>
+                                                                                              <p>
+                                                                                                <label>
+                                                                                                  <input type="radio" <?= $pregunta->obligatorio  == 'Si' ? 'required':'' ?> value="<?= $detalleHijo->id ?>" name="<?= $detalle->campo_formulario?>" class="with-gap"/>
+                                                                                                  <span><?= $detalleHijo->description ?></span>
+                                                                                                </label>
+                                                                                              </p>
+                                                                                            <?php elseif($detalleHijo->tipo_pregunta_id == 4): ?>
+                                                                                              <p>
+                                                                                                <label>
+                                                                                                  <input type="checkbox" value="<?= $detalleHijo->id ?>" name="<?= $detalle->campo_formulario ?>[]" class="filled-in"/>
+                                                                                                  <span><?= $detalleHijo->description ?></span>
+                                                                                                </label>
+                                                                                              </p>
+                                                                                            <?php endif ?>
+                                                                                          <?php endforeach ?>
+                                                                                        </div>
                                                                                       <?php endforeach ?>
                                                                                     </div>
-                                                                                  <?php endforeach ?>
-                                                                                </div>
-                                                                          </li>
-                                                                        </ul>
-                                                                      <?php elseif($pregunta->tipo_pregunta_id == 4): ?> <!-- Pregunta Checkbox -->
-                                                                        <ul class="collapsible categories-collapsible">
-                                                                          <li class="">
-                                                                              <div class="collapsible-header"><?= $pregunta->pregunta ?><i class="material-icons">
-                                                                                      keyboard_arrow_right </i></div>
-                                                                              <div class="collapsible-body">
-                                                                                <div class="row">
-                                                                                  <?php foreach($pregunta->detalle as $detalle): ?>
-                                                                                    <p>
-                                                                                      <label>
-                                                                                        <input type="checkbox" class="filled-in"/>
-                                                                                        <span><?= $detalle->description ?></span>
-                                                                                      </label>
-                                                                                    </p>
-                                                                                    <div class="pl-3">
-                                                                                      <?php foreach($detalle->detalle as $detalleHijo): ?>
-                                                                                        <?php if($detalleHijo->tipo_pregunta_id == 3): ?>
-                                                                                          <p>
-                                                                                            <label>
-                                                                                              <input type="radio" name="group2" class="with-gap"/>
-                                                                                              <span><?= $detalleHijo->description ?></span>
-                                                                                            </label>
-                                                                                          </p>
-                                                                                        <?php elseif($detalleHijo->tipo_pregunta_id == 4): ?>
-                                                                                          <p>
-                                                                                            <label>
-                                                                                              <input type="checkbox" class="filled-in"/>
-                                                                                              <span><?= $detalleHijo->description ?></span>
-                                                                                            </label>
-                                                                                          </p>
-                                                                                        <?php endif ?>
+                                                                              </li>
+                                                                            </ul>
+                                                                          </div>
+                                                                        <?php elseif($pregunta->tipo_pregunta_id == 4): ?> <!-- Pregunta Checkbox -->
+                                                                          <div class="col s12 ">
+                                                                            <ul class="collapsible categories-collapsible secundario">
+                                                                              <li class="">
+                                                                                  <div class="collapsible-header"><?= $pregunta->pregunta ?><?= $pregunta->obligatorio  == 'Si' ? '<span class="red-text">: *</span>':'' ?><i class="material-icons">
+                                                                                          keyboard_arrow_right </i></div>
+                                                                                  <div class="collapsible-body">
+                                                                                    <div class="row">
+                                                                                      <?php foreach($pregunta->detalle as $detalle): ?>
+                                                                                        <p>
+                                                                                          <label>
+                                                                                            <input type="checkbox" value="<?= $detalle->id ?>" name="<?= $pregunta->campo_formulario?>[]" class="filled-in"/>
+                                                                                            <span><?= $detalle->description ?></span>
+                                                                                          </label>
+                                                                                        </p>
+                                                                                        <div class="pl-3">
+                                                                                          <?php foreach($detalle->detalle as $detalleHijo): ?>
+                                                                                            <?php if($detalleHijo->tipo_pregunta_id == 1): ?>
+                                                                                              <div class="input-field col s12 ">
+                                                                                                  <label for="text_<?= $detalleHijo->id ?>"><?= $detalleHijo->description ?></label>
+                                                                                                  <input type="text" id="text_<?= $detalleHijo->id ?>" name="<?= $detalleHijo->campo_formulario?>" class="validate"  <?= $pregunta->descripcion ? '':'' ?>>
+                                                                                              </div>
+                                                                                            <?php elseif($detalleHijo->tipo_pregunta_id == 3): ?>
+                                                                                              <p>
+                                                                                                <label>
+                                                                                                  <input type="radio" <?= $pregunta->obligatorio  == 'Si' ? 'required':'' ?> value="<?= $detalleHijo->id ?>" name="<?= $detalle->campo_formulario ?>" class="with-gap"/>
+                                                                                                  <span><?= $detalleHijo->description ?></span>
+                                                                                                </label>
+                                                                                              </p>
+                                                                                            <?php elseif($detalleHijo->tipo_pregunta_id == 4): ?>
+                                                                                              <p>
+                                                                                                <label>
+                                                                                                  <input type="checkbox" value="<?= $detalleHijo->id ?>" name="<?= $detalle->campo_formulario ?>[]" class="filled-in"/>
+                                                                                                  <span><?= $detalleHijo->description ?></span>
+                                                                                                </label>
+                                                                                              </p>
+                                                                                            <?php endif ?>
+                                                                                          <?php endforeach ?>
+                                                                                        </div>
                                                                                       <?php endforeach ?>
                                                                                     </div>
-                                                                                  <?php endforeach ?>
-                                                                                </div>
-                                                                          </li>
-                                                                        </ul>
-                                                                      <?php elseif($pregunta->tipo_pregunta_id == 5): ?> <!-- Pregunta Lista texto -->
-                                                                        <ul class="collapsible categories-collapsible">
-                                                                          <li class="">
-                                                                              <div class="collapsible-header"><?= $pregunta->pregunta ?><i class="material-icons">
-                                                                                      keyboard_arrow_right </i></div>
-                                                                              <div class="collapsible-body">
-                                                                                <div class="row">
-                                                                                  <div class="input-field col s12">
-                                                                                    <textarea id="pregunta_<?= $pregunta->id ?>_question" class="materialize-textarea"></textarea>
-                                                                                    <label for="pregunta_<?= $pregunta->id ?>_question"><?= $pregunta->descripcion ?></label>
-                                                                                  </div>
-                                                                                  <div class="col m4 s12 mb-3">
-                                                                                      <button class="waves-effect waves btn btn-primary" onclick="add_list(<?= $pregunta->id ?>)" type="button">
-                                                                                          <i class="material-icons left">check</i>Agregar
-                                                                                      </button>
-                                                                                  </div>
-                                                                                </div>
-                                                                                <table class="Highlight centered responsive-table" id="pregunta_<?= $pregunta->id ?>">
-                                                                                  <thead>
-                                                                                    <tr>
-                                                                                      <th><?= $pregunta->titulo ?></th>
-                                                                                      <th>Accion</th>
-                                                                                    </tr>
-                                                                                  </thead>
-                                                                                  <tbody>
-                                                                                  </tbody>
-                                                                                </table>
-                                                                              </div>
-                                                                          </li>
-                                                                        </ul>
-                                                                      
-                                                                      <?php elseif($pregunta->tipo_pregunta_id == 6): ?> <!-- Pregunta Lista Documento -->
-                                                                        <ul class="collapsible categories-collapsible">
-                                                                          <li>
-                                                                            <div class="collapsible-header"><?= $pregunta->pregunta ?> <i class="material-icons">
-                                                                                    keyboard_arrow_right </i></div>
-                                                                            <div class="collapsible-body pruebas">
-                                                                                <div class="content-right">
-                                                                                  <!-- file manager main content start -->
-                                                                                    <div class="app-file-area">
-                                                                                        <div class="app-file-content">
-                                                                                            <div class="titles-pruebas">
-                                                                                                <h6 class="font-weight-700 mb-3"><?= $pregunta->descripcion ?></h6>
-                                                                                                  <div class="file-field input-field">
-                                                                                                      <div class="btn">
-                                                                                                          <span>Cargar archivo</span>
-                                                                                                          <input type="file" multiple="multiple" id="input_prueba_<?= $pregunta->id ?>" onchange="add_prueba(<?= $pregunta->id ?>)">
-                                                                                                      </div>
-                                                                                                      <div class="file-path-wrapper">
-                                                                                                          <input class="file-path validate" id="names_pruebas_<?= $pregunta->id ?>" type="text" placeholder="<?= $pregunta->titulo ?>">
-                                                                                                      </div>
-                                                                                                    </div>
-                                                                                                    <!-- <div class="col s12 mb-3">
-                                                                                                        <button class="waves-effect waves btn btn-primary" onclick="add_prueba(<?= $pregunta->id ?>)" type="button">
-                                                                                                            <i class="material-icons left">check</i>Agregar
-                                                                                                        </button>
-                                                                                                    </div> -->
-                                                                                            </div>
-                                                                                          <!-- App File - Recent Accessed Files Section Starts -->
-                                                                                            <div class="row app-file-recent-access mb-3 pruebas-anexos" id="pruebas_anexos_<?= $pregunta->id ?>">
-                                                                                                
-                                                                                            </div>
+                                                                              </li>
+                                                                            </ul>
+                                                                          </div>
+                                                                        <?php elseif($pregunta->tipo_pregunta_id == 5): ?> <!-- Pregunta Lista texto -->
+                                                                          <div class="col s12 ">
+                                                                            <ul class="collapsible categories-collapsible secundario">
+                                                                              <li class="">
+                                                                                  <div class="collapsible-header"><?= $pregunta->pregunta ?><i class="material-icons">
+                                                                                          keyboard_arrow_right </i></div>
+                                                                                  <div class="collapsible-body">
+                                                                                    <div class="row">
+                                                                                      <div class="input-field col s12">
+                                                                                        <textarea id="<?= $pregunta->campo_formulario ?>" class="materialize-textarea"></textarea>
+                                                                                        <label for="<?= $pregunta->campo_formulario ?>"><?= $pregunta->descripcion ?></label>
+                                                                                      </div>
+                                                                                      <div class="col m4 s12 mb-3">
+                                                                                          <button class="waves-effect waves btn btn-primary agg-edit_<?= $pregunta->campo_formulario ?>" onclick="add_list(<?= $pregunta->id ?>, '<?= $pregunta->campo_formulario ?>')" type="button">
+                                                                                              <i class="material-icons left">check</i>Agregar
+                                                                                          </button>
                                                                                       </div>
                                                                                     </div>
-                                                                                </div>
-                                                                            </div>
-                                                                          </li>
-                                                                        </ul>
-                                                                      <?php endif ?>
+                                                                                    <table class="Highlight centered responsive-table" id="pregunta_<?= $pregunta->id ?>">
+                                                                                      <thead>
+                                                                                        <tr>
+                                                                                          <th><?= $pregunta->titulo ?></th>
+                                                                                          <th>Accion</th>
+                                                                                        </tr>
+                                                                                      </thead>
+                                                                                      <tbody>
+                                                                                      </tbody>
+                                                                                    </table>
+                                                                                  </div>
+                                                                              </li>
+                                                                            </ul>
+                                                                          </div>
+                                                                          <input type="hidden" id="<?= $pregunta->campo_formulario ?>_hechos" name="<?= $pregunta->campo_formulario?>">
+                                                                        
+                                                                        <?php elseif($pregunta->tipo_pregunta_id == 6): ?> <!-- Pregunta Lista Documento -->
+                                                                          <ul class="collapsible categories-collapsible secundario">
+                                                                            <li>
+                                                                              <div class="collapsible-header"><?= $pregunta->pregunta ?> <i class="material-icons">
+                                                                                      keyboard_arrow_right </i></div>
+                                                                              <div class="collapsible-body pruebas">
+                                                                                  <div class="content-right">
+                                                                                    <!-- file manager main content start -->
+                                                                                      <div class="app-file-area">
+                                                                                          <div class="app-file-content">
+                                                                                              <div class="titles-pruebas">
+                                                                                                  <h6 class="font-weight-700 mb-3"><?= $pregunta->descripcion ?></h6>
+                                                                                                  <button class="btn btn-primary" type="button" onclick="agg_anexo('<?= $pregunta->campo_formulario?>', <?= $pregunta->id ?>)">Agregar nuevo
+                                                                                                    <i class="material-icons right">check</i>
+                                                                                                  </button>
+                                                                                                  <!-- <div class="row">
+                                                                                                    <div class="file-field input-field  s12 m3col">
+                                                                                                      <div class="btn large">
+                                                                                                        <span>File</span>
+                                                                                                        <input type="file" id="input_prueba_<?= $pregunta->id ?>">
+                                                                                                      </div>
+                                                                                                      <div class="file-path-wrapper hide">
+                                                                                                        <input class="file-path validate" type="text">
+                                                                                                      </div>
+                                                                                                    </div>
+                                                                                                    <div class="file-field input-field col s12 m9">
+                                                                                                      <input placeholder="Placeholder" id="input_name_<?= $pregunta->id ?>" type="text" class="validate">
+                                                                                                      <label for="input_name_<?= $pregunta->id ?>">First Name</label>
+                                                                                                    </div>
+                                                                                                    <div class="col m4 s12 mb-3">
+                                                                                                        <button class="waves btn btn-primary" onclick="add_prueba(<?= $pregunta->id ?>, '<?= $pregunta->campo_formulario ?>')" type="button">
+                                                                                                            <i class="material-icons left">check</i>Agregar
+                                                                                                        </button>
+                                                                                                    </div>
+                                                                                                  </div> -->
+                                                                                              </div>
+                                                                                              <!-- <input type="file" name="<?= $pregunta->campo_formulario?>[]">
+                                                                                              <input type="file" name="<?= $pregunta->campo_formulario?>[]"> -->
+                                                                                              <!-- <input type="file" multiple id="prueba_<?= $pregunta->id?>"> -->
+                                                                                              <div class="row app-file-recent-access mb-3 pruebas-anexos" id="pruebas_anexos_<?= $pregunta->id ?>">
+                                                                                                  
+                                                                                              </div>
+                                                                                        </div>
+                                                                                      </div>
+                                                                                  </div>
+                                                                              </div>
+                                                                            </li>
+                                                                          </ul>
+                                                                        <?php endif ?>
+                                                                      </div>
                                                                     <?php endforeach ?>
-                                                                </div>
-                                                                <div class="step-actions">
-                                                                    <div class="row">
-                                                                      <?php if($key_2 > 0): ?>
-                                                                        <div class="col m4 s12 mb-3">
-                                                                            <button class="red btn btn-reset" type="reset">
-                                                                                <i class="material-icons left">clear</i>Reset
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col m4 s12 mb-3">
-                                                                            <button class="btn btn-light previous-step">
-                                                                                <i class="material-icons left">arrow_back</i>
-                                                                                Anterior
-                                                                            </button>
-                                                                        </div>
-                                                                      <?php endif ?>
-                                                                        <div class="col m4 s12 mb-3">
-                                                                            <button class="waves-effect waves dark btn btn-primary next-step" type="submit">
-                                                                                Siguiente
-                                                                                <i class="material-icons right">arrow_forward</i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                          </li>
-                                                        <?php endforeach ?>
-                                                        <li class="step">
-                                                            <div class="step-title waves-effect">¿QUIÉN PRESENTA LA PETICION?</div>
-                                                            <div class="step-content">
-                                                                <div class="row">
-                                                                    <div class="input-field col m6 s12">
-                                                                        <label for="eventName1">Nombre: <span class="red-text">*</span></label>
-                                                                        <input type="text" class="validate" id="eventName1" name="eventName1" required>
-                                                                    </div>
-                                                                    <div class="input-field col m6 s12">
-                                                                        <label for="cedula">Cedula: <span class="red-text">*</span></label>
-                                                                        <input type="number" class="validate" id="cedula" name="cedula" required>
-                                                                    </div>
-                                                                    <div class="input-field col m6 s12">
-                                                                        <label for="ciudad">Ciudad: <span class="red-text">*</span></label>
-                                                                        <input type="text" class="validate" id="ciudad" name="ciudad" required>
-                                                                    </div>
-                                                                    <div class="input-field col m6 s12">
-                                                                        <label for="direccion">Dirección: <span class="red-text">*</span></label>
-                                                                        <input type="text" class="validate" id="eventName1" name="direccion" required>
-                                                                    </div>
-                                                                    <div class="input-field col m6 s12">
-                                                                        <input placeholder="Placeholder" id="phone-input" type="text" class="">
-                                                                        <label for="phone-input">Phone Number</label>
-                                                                    </div>
-                                                                    <div class="input-field col m6 s12">
-                                                                        <label for="correo">Correo electronico: <span class="red-text">*</span></label>
-                                                                        <input type="email" class="validate" id="correo" name="correo" required>
-                                                                    </div>
-                                                                    <div class="input-field col m6 s12">
-                                                                      <?php foreach($generos as $genero): ?>
+                                                                      
+                                                                  </div>
+                                                                  <div class="step-actions">
+                                                                      <div class="row">
+                                                                        <?php if($key_2 > 0): ?>
+                                                                          <div class="col m4 s12 mb-3">
+                                                                              <button class="red btn btn-reset" type="reset">
+                                                                                  <i class="material-icons left">clear</i>Reset
+                                                                              </button>
+                                                                          </div>
+                                                                          <div class="col m4 s12 mb-3">
+                                                                              <button class="btn btn-light previous-step">
+                                                                                  <i class="material-icons left">arrow_back</i>
+                                                                                  Anterior
+                                                                              </button>
+                                                                          </div>
+                                                                        <?php endif ?>
+                                                                          <div class="col m4 s12 mb-3">
+                                                                              <button class="waves-effect waves dark btn btn-primary next-step" type="submit">
+                                                                                  Siguiente
+                                                                                  <i class="material-icons right">arrow_forward</i>
+                                                                              </button>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                            </li>
+                                                          <?php endforeach ?>
+                                                          <li class="step">
+                                                              <div class="step-title waves-effect">¿QUIÉN PRESENTA LA PETICION?</div>
+                                                              <div class="step-content">
+                                                                  <div class="row">
+                                                                      <div class="input-field col m6 s12">
+                                                                          <label for="name">Nombre: <span class="red-text">*</span></label>
+                                                                          <input type="text" class="validate" id="name" name="name" required value="<?= session('user')->name ?>">
+                                                                      </div>
+                                                                      <div class="input-field col m6 s12">
+                                                                          <label for="id">Cedula: <span class="red-text">*</span></label>
+                                                                          <input type="number" class="validate" id="id" name="id" required value="<?= session('user')->id ?>">
+                                                                      </div>
+                                                                      <div class="input-field col m6 s12">
+                                                                          <label for="ciudad">Ciudad: <span class="red-text">*</span></label>
+                                                                          <input type="text" class="validate" id="ciudad" name="ciudad" required value="<?= session('user')->ciudad ?>">
+                                                                      </div>
+                                                                      <div class="input-field col m6 s12">
+                                                                          <label for="direccion">Dirección: <span class="red-text">*</span></label>
+                                                                          <input type="text" class="validate" id="eventName1" name="direccion" required value="<?= session('user')->direccion ?>">
+                                                                      </div>
+                                                                      <div class="input-field col m6 s12">
+                                                                          <label for="phone">Numero de telefono</label>
+                                                                          <input type="text" class="" id="phone" name="phone" value="<?= session('user')->phone ?>">
+                                                                      </div>
+                                                                      <div class="input-field col m6 s12">
+                                                                          <label for="email">Correo electronico: <span class="red-text">*</span></label>
+                                                                          <input type="email" class="validate" id="email" name="email" required value="<?= session('user')->email ?>">
+                                                                      </div>
+                                                                      <div class="input-field col m6 s12">
+                                                                        <?php foreach($generos as $genero): ?>
+                                                                          <p>
+                                                                            <label>
+                                                                              <input class="with-gap" value="<?= $genero->id ?>" name="genero" type="radio" <?= $genero->id == session('user')->genero_id ? 'checked':'' ?>/>
+                                                                              <span><?= $genero->name ?></span>
+                                                                            </label>
+                                                                          </p>
+                                                                        <?php endforeach ?>
+                                                                      </div>
+                                                                      <div class="input-field col m6 s12">
+                                                                        <select name="etnia">
+                                                                          <option value="" disabled>Seleccione uno</option>
+                                                                          <?php foreach ($etnias as $etnia): ?>
+                                                                            <option value="<?= $etnia->id ?>" <?= $genero->id == session('user')->genero_id ? 'selected':'' ?>><?= $etnia->name ?></option>
+                                                                          <?php endforeach ?>
+                                                                          </select>
+                                                                        <label>¿Con cual de estos grupos te identificas?</label>
+                                                                      </div>
+                                                                      <div class="input-field col m6 s12">
                                                                         <p>
                                                                           <label>
-                                                                            <input class="with-gap" name="group1" type="radio"/>
-                                                                            <span><?= $genero->name ?></span>
+                                                                            <input type="checkbox" name="autoriza"/>
+                                                                            <span>Autoriza firma (Crear firma digital)</span>
                                                                           </label>
                                                                         </p>
-                                                                      <?php endforeach ?>
-                                                                    </div>
-                                                                    <div class="input-field col m6 s12">
-                                                                      <select>
-                                                                        <option value="" disabled selected>Seleccione uno</option>
-                                                                        <?php foreach ($etnias as $etnia): ?>
-                                                                          <option value="<?= $etnia->id ?>"><?= $etnia->name ?></option>
-                                                                        <?php endforeach ?>
-                                                                      <label>¿Con cual de estos grupos te identificas?</label>
-                                                                    </div>
-                                                                    <div class="input-field col m6 s12">
-                                                                    <p>
-                                                                      <label>
-                                                                        <input type="checkbox"/>
-                                                                        <span>Autoriza firma (Crear firma digital)</span>
-                                                                      </label>
-                                                                    </p>
-                                                                    <p>
-                                                                      <label>
-                                                                        <input type="checkbox"/>
-                                                                        <span>Acepta términos y condiciones</span>
-                                                                      </label>
-                                                                    </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="step-actions">
-                                                                    <div class="row">
-                                                                        <div class="col m4 s12 mb-1">
-                                                                            <button class="red btn mr-1 btn-reset" type="reset">
-                                                                                <i class="material-icons">clear</i>
-                                                                                Reset
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col m4 s12 mb-3">
-                                                                            <button class="btn btn-light previous-step">
-                                                                                <i class="material-icons left">arrow_back</i>
-                                                                                Anterior
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col m4 s12 mb-1">
-                                                                            <button class="waves-effect waves-dark btn btn-primary" type="submit">Submit</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                      </ul>
+                                                                        <p>
+                                                                          <label>
+                                                                            <input type="checkbox" name="condiciones"/>
+                                                                            <span>Acepta términos y condiciones</span>
+                                                                          </label>
+                                                                        </p>
+                                                                        <p>
+                                                                          <label>
+                                                                            <input type="checkbox" name="help_<?= $formulario->id ?>"/>
+                                                                            <span>Necesita ayuda en el proceso de verificación del documento</span>
+                                                                          </label>
+                                                                        </p>
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class="step-actions">
+                                                                      <div class="row">
+                                                                          <div class="col m4 s12 mb-1">
+                                                                              <button class="red btn mr-1 btn-reset" type="reset">
+                                                                                  <i class="material-icons">clear</i>
+                                                                                  Reset
+                                                                              </button>
+                                                                          </div>
+                                                                          <div class="col m4 s12 mb-3">
+                                                                              <button class="btn btn-light previous-step">
+                                                                                  <i class="material-icons left">arrow_back</i>
+                                                                                  Anterior
+                                                                              </button>
+                                                                          </div>
+                                                                          <div class="col m4 s12 mb-1">
+                                                                              <button class="waves-effect waves-dark btn btn-primary" type="submit">Submit</button>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                          </li>
+                                                        </ul>
+                                                      </form>
                                                     </div>
                                                 </li>                                                
                                               <?php endforeach ?>
@@ -352,53 +393,62 @@
                               </div>
                             </div>
                             <div id="show" class="col s12">
-                            <table id="table-rechazada" class="display">
-                                    <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Nombre</th>
-                                            <th>Cedula</th>
-                                            <th>Tipo de Documento</th>
-                                            <th>Estado</th>
-                                            <th>Entidad</th>
-                                            <th>Colaborador</th>
-                                            <th>Fecha</th>
-                                            <!-- <th>Acciones</th> -->
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                      <?php foreach($documents as $document): ?>
-                                        <tr>
-                                            <td><?= $document['id'] ?></td>
-                                            <td><?= $document['name'] ?></td>
-                                            <td><?= $document['cedula'] ?></td>
-                                            <td><?= $document['document'] ?></td>
-                                            <td><?= $document['status'] ?></td>
-                                            <td><?= $document['entidad'] ?></td>
-                                            <td><?= $document['colaborador'] == 0 ? 'No necesita': 'William Bonilla' ?></td>
-                                            <td><?= $document['date'] ?></td>
-                                            <!-- <td class="center-align">
-                                              <a class="tooltipped" href="<?= $base_url ?>/table-edit.php" data-position="bottom" data-tooltip="Editar"><i class="material-icons grey-text">create</i></a>
-                                              <a class="modal-trigger" href="#modal2"><i class="material-icons grey-text">more_vert</i></a>
-                                            </td> -->
-                                        </tr>
-                                      <?php endforeach ?>
-                                        
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Nombre</th>
-                                            <th>Cedula</th>
-                                            <th>Tipo de Documento</th>
-                                            <th>Estado</th>
-                                            <th>Entidad</th>
-                                            <th>Colaborador</th>
-                                            <th>Fecha</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                              <table id="table-rechazada" class="display">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nombre</th>
+                                        <th>Cedula</th>
+                                        <th>Tipo de Documento</th>
+                                        <th>Estado</th>
+                                        <th>Entidad</th>
+                                        <th>Colaborador</th>
+                                        <th>Fecha</th>
+                                        <th>Documento</th>
+                                        <!-- <th>Acciones</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  <?php foreach($documents as $document): ?>
+                                    <tr>
+                                        <td><?= $document->abreviacion.''.$document->id_documento ?></td>
+                                        <td><?= $document->name ?></td>
+                                        <td><?= $document->id ?></td>
+                                        <td><?= $document->descripcion ?></td>
+                                        <td><?= $document->nombre ?></td>
+                                        <td><?= $document->entidad ?></td>
+                                        <?php
+                                          // $colaborador = 'No necesita';
+                                          // if( $document->help)
+                                        ?>
+                                        <td><?= $document->help == 'off' ? 'No necesita': 'No asignado' ?></td>
+                                        <td><?= $document->fecha ?></td>
+                                        <td>
+                                          <a href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento]) ?>" target="_blank">Ver</a>
+                                          <a href="<?= base_url(['cespidh', 'edit', 'document', $document->id_documento]) ?>" target="_blank">Editar</a>
+                                        </td>
+                                        <!-- <td class="center-align">
+                                          <a class="tooltipped" href="<?= $base_url ?>/table-edit.php" data-position="bottom" data-tooltip="Editar"><i class="material-icons grey-text">create</i></a>
+                                          <a class="modal-trigger" href="#modal2"><i class="material-icons grey-text">more_vert</i></a>
+                                        </td> -->
+                                    </tr>
+                                  <?php endforeach ?>
+                                    
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nombre</th>
+                                        <th>Cedula</th>
+                                        <th>Tipo de Documento</th>
+                                        <th>Estado</th>
+                                        <th>Entidad</th>
+                                        <th>Colaborador</th>
+                                        <th>Fecha</th>
+                                        <!-- <th>Acciones</th> -->
+                                    </tr>
+                                </tfoot>
+                              </table>
                             </div>
                         </div>
                     </div>
@@ -435,6 +485,7 @@
 
 
 
+<script src="<?= base_url() ?>/assets/js/new_script/funciones.js"></script>
 
 <!-- BEGIN VENDOR JS-->
 <script src="<?= base_url() ?>/assets/js/vendors.min.js"></script>
@@ -489,7 +540,6 @@
     });
   }
 </script>
-
 <!-- BEGIN PAGE LEVEL JS-->
 <script src="<?= base_url() ?>/assets/js/scripts/form-wizard.js"></script>
 

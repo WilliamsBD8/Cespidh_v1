@@ -24,11 +24,16 @@ class Formularios extends Model
     }
 
     public function PreguntasDetalle($id){
-        return $this->builder('pregunta_detalle')->where(["preguntas_id" =>$id, 'pregunta_padre' => NULL])->get()->getResult();
+        return $this->builder('pregunta_detalle')->where(["preguntas_id" =>$id, 'pregunta_padre' => NULL])->orderBy('orden', 'ASC')->get()->getResult();
     }
 
     public function PreguntaDetalleHijo($id){
         return $this->builder('pregunta_detalle')->where(['pregunta_padre' => $id])->orderBy('orden', 'ASC')->get()->getResult();
+    }
+
+
+    public function PreguntasFormulario($id){
+        return $this->builder('preguntas')->where("formulario_id=$id")->orderBy('id', 'ASC')->get()->getResult();
     }
 
 }

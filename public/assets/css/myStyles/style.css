@@ -47,3 +47,7 @@
 .menu.dropdown-submenu>a:after {
     display: none !important;
 }
+
+.btn.large {
+    width: 100%
+}

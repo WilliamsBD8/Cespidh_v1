@@ -48,7 +48,17 @@ $routes->post('/table/(:segment)', 'TableController::index/$1');
 $routes->get('/table/(:segment)', 'TableController::index/$1');
 $routes->post('/table/(:segment)/(:segment)', 'TableController::subindex/$1/$2');
 $routes->get('/table/(:segment)/(:segment)', 'TableController::subindex/$1/$2');
-$routes->get('/ciudadanos', 'CiudadanoController::index');
+
+$routes->group('cespidh', function ($routes){
+	$routes->get('ciudadanos', 'CiudadanoController::index');
+
+	// Create
+	$routes->post('create/document', 'CiudadanoController::create');
+	$routes->get('view/document/(:segment)', 'CiudadanoController::view_document/$1');
+	
+	$routes->get('edit/document/(:segment)', 'CiudadanoController::view_edit/$1');
+	$routes->post('edit/document', 'CiudadanoController::edit_document');
+});
 
 /**
  * --------------------------------------------------------------------

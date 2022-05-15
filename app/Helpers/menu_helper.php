@@ -102,7 +102,7 @@ function urlOption($references = null)
         if ($data['component'] == 'table') {
             return base_url().'/table/' . $data['url'];
         } else if ($data['component'] == 'controller') {
-            return base_url().'/' . $data['url'];
+            return base_url().'/cespidh/' . $data['url'];
         }
     } else {
         return 'JavaScript:void(0)';

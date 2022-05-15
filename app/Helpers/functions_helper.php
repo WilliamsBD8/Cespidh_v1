@@ -45,3 +45,30 @@ function documents(){
   }
   return $documents;
 }
+
+function ordinal($key){
+  $numeros = [
+    'PRIMERO',
+    'SEGUNDO',
+    'TERCERO',
+    'CUARTO',
+    'QUINTO',
+    'SEXTO',
+    'SÉPTIMO',
+    'OCTAVO',
+    'NOVENO',
+    'DÉCIMO',
+    'DÉCIMO PRIMERO',
+    'DÉCIMO SEGUNDO',
+    'DÉCIMO TERCERO',
+    'DÉCIMO CUARTO',
+    'DÉCIMO QUINTO',
+    'DÉCIMO SEXTO',
+    'DÉCIMO SÉPTIMO',
+    'DÉCIMO OCTAVO',
+    'DÉCIMO NOVENO',
+    'VIGÉSIMO'
+  ];
+
+  return  $numeros[$key];
+}

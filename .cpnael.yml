@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home4/cespidh/public_html/cms_prueba
+    - export DEPLOYPATH=/home4/cespidh/public_html/cms_prueba_v2
     - /bin/cp -R app $DEPLOYPATH
     - /bin/cp -R bs $DEPLOYPATH
     - /bin/cp -R public $DEPLOYPATH

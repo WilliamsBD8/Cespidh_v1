@@ -78,7 +78,7 @@
                                                         <span><?= $detalle->description ?></span>
                                                       </label>
                                                     </p>
-                                                    <div class="pl-3 hide">
+                                                    <div class="pl-3">
                                                       <?php foreach($detalle->detalle as $detalleHijo): ?>
                                                         <?php if($detalleHijo->tipo_pregunta_id == 1): ?>
                                                           <div class="input-field col s12 ">
@@ -225,6 +225,7 @@
                                                                         <div class="app-file-recent-details">
                                                                             <div class="icons-pruebas">
                                                                                 <a href="#!" class="indigo-text font-weight-600" onclick="prueba_delete(this, <?= $pregunta->id ?>)"><i class="material-icons">close</i></a>
+                                                                                <a target="_blank" href="<?= base_url(['img', 'files', $respuesta->documento]) ?>" class="indigo-text font-weight-600"><i class="material-icons">cloud_download</i></a>
                                                                             </div>
                                                                             <div class="row">
                                                                               <div class="file-field input-field col s12">

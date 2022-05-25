@@ -92,7 +92,7 @@
                                                       </div>
                                                       <div class="collapsible-body">
                                                         <div class="row">
-                                                          <form class="col s12" action="<?= base_url(['cespidh', 'entidad', 'search']) ?>" method="post">
+                                                          <form class="col s12" action="<?= base_url(['cespidh', 'entidad', 'search']) ?>" method="post" autocomplete="off">
                                                             <div class="row">
                                                               <div class="col s12">
                                                                 <div class="row">
@@ -667,6 +667,7 @@
 <script>
   $(document).ready(function(){
     $('.tooltipped').tooltip();
+    $('.datepicker').datepicker();
   });
 
   function delete_document(id){

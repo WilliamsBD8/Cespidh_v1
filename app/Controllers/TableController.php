@@ -29,6 +29,11 @@ class TableController extends BaseController
         if($component) {
             $this->crud->setTable($component[0]->table);
             switch ($component[0]->table) {
+                case 'documento_estado':
+                    $this->crud->unsetAdd();
+                    $this->crud->unsetDelete();
+                    $this->crud->readOnlyFields(['nombre']);
+                    break;
                 case 'documento_tipo':
                     $this->crud->displayAs(['descripcion' => 'Descripción', 'abreviacion' => 'Abreviación']);
                     $this->crud->setTexteditor(['plantilla']);

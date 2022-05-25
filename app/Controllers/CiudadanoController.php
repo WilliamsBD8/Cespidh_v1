@@ -293,18 +293,20 @@ class CiudadanoController extends BaseController
                         case 6:
                             $files = $this->request->getFiles($pregunta->campo_formulario);
                             $names = $this->request->getPost($pregunta->campo_formulario.'_names');
-                            foreach ($files[$pregunta->campo_formulario] as $llave => $archivo) {
-                                $archivo->new_name = $names[$llave];
-                                $archivo->move('img/files', $archivo->getName());
-                                $data = [
-                                    'preguntas_id' => $pregunta->id,
-                                    'documento_id_documento' => $id_documento,
-                                    'formulario_id' => $formulario->id,
-                                    'secciones_id' => $seccion->id,
-                                    'respuesta' => $archivo->new_name,
-                                    'documento' => $archivo->getName()
-                                ];
-                                $respuestaM->insert($data);
+                            if(!empty($files[$pregunta->campo_formulario])){
+                                foreach ($files[$pregunta->campo_formulario] as $llave => $archivo) {
+                                    $archivo->new_name = $names[$llave];
+                                    $archivo->move('img/files', $archivo->getName());
+                                    $data = [
+                                        'preguntas_id' => $pregunta->id,
+                                        'documento_id_documento' => $id_documento,
+                                        'formulario_id' => $formulario->id,
+                                        'secciones_id' => $seccion->id,
+                                        'respuesta' => $archivo->new_name,
+                                        'documento' => $archivo->getName()
+                                    ];
+                                    $respuestaM->insert($data);
+                                }
                             }
                             break;
 
@@ -316,7 +318,7 @@ class CiudadanoController extends BaseController
             }
         }
         // return;
-        return redirect()->to(base_url(['cespidh', 'ciudadanos']));
+        return redirect()->back();
     }
 
     public function view_document($id){
@@ -339,17 +341,20 @@ class CiudadanoController extends BaseController
                         case 1: // Preguntas abiertas
                             foreach ($pregunta->respuesta as $key => $respuesta) {
                                 $plantilla = str_replace("{{{$pregunta->campo_formulario}.respuesta}}", $respuesta->respuesta, $plantilla);
+                                $plantilla = str_replace("{{{$pregunta->campo_formulario}.titulo}}", $respuesta->titulo, $plantilla);
                             }
                             break;
                         case 2: // Preguntas Select
                             $plantilla = str_replace("{{{$pregunta->campo_formulario}.titulo}}", $pregunta->pregunta, $plantilla);
                             $pregunta_detalle = $respuestasM->PreguntaDetalle($pregunta->respuesta[0]->pregunta_detalle_id);
                             $plantilla = str_replace("{{{$pregunta->campo_formulario}.respuesta}}", $pregunta_detalle[0]->description, $plantilla);
+                            $plantilla = str_replace("{{{$pregunta->campo_formulario}.complemento}}", $pregunta_detalle[0]->complemento, $plantilla);
                             break;
                         case 3: // Preguntas Radio
                             $plantilla = str_replace("{{{$pregunta->campo_formulario}.titulo}}", $pregunta->pregunta, $plantilla);
                             $pregunta_detalle = $respuestasM->PreguntaDetalle($pregunta->respuesta[0]->pregunta_detalle_id);
                             $plantilla = str_replace("{{{$pregunta->campo_formulario}.respuesta}}", $pregunta_detalle[0]->description, $plantilla);
+                            $plantilla = str_replace("{{{$pregunta->campo_formulario}.complemento}}", $pregunta_detalle[0]->complemento, $plantilla);
                             break;
                         case 4: // Preguntas Checkbox
                             $pregunta->preguntas_detalle = $respuestasM->PreguntaDetalles($pregunta->id);
@@ -817,6 +822,14 @@ class CiudadanoController extends BaseController
         return redirect()->to(base_url(['cespidh', 'edit', 'document', $id_document]));
         // return var_dump($formularioB);
 
+    }
+
+    public function historial($id){
+        $userM = new User();
+        $users = $userM->where(['role_id' => 4])->get()->GetResult();
+        return view('ciudadano/historial', [
+            'colaboradores' => $users
+        ]);
     }
 
 

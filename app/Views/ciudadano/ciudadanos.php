@@ -403,8 +403,8 @@
                                         <th>Cedula</th>
                                         <th>Tipo de Documento</th>
                                         <th>Estado</th>
-                                        <th>Entidad</th>
-                                        <th>Colaborador</th>
+                                        <th>Sede</th>
+                                        <th>Usuario</th>
                                         <th>Fecha</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -458,8 +458,8 @@
                                         <th>Cedula</th>
                                         <th>Tipo de Documento</th>
                                         <th>Estado</th>
-                                        <th>Entidad</th>
-                                        <th>Colaborador</th>
+                                        <th>Sede</th>
+                                        <th>Usuario</th>
                                         <th>Fecha</th>
                                         <th>Acciones</th>
                                     </tr>

@@ -122,7 +122,7 @@
                                                                 <div class="row">
                                                                   <div class="input-field col s12 l4">
                                                                     <input type="text" id="autocomplete-colaborador" class="autocomplete-colaborador" name="colaborador">
-                                                                    <label for="autocomplete-colaborador">Colaborador</label>                                                    
+                                                                    <label for="autocomplete-colaborador">Usuario</label>                                                    
                                                                   </div>
                                                                   <div class="input-field col s12 l4">
                                                                     <input type="text" class="datepicker" id="date-inicial" name="date_init" <?= !empty($data['date_init']) ? 'value="'.$data['date_init'].'"' :'' ?>>
@@ -170,8 +170,8 @@
                                               <th>Cedula</th>
                                               <th>Tipo de Documento</th>
                                               <th>Estado</th>
-                                              <th>Entidad</th>
-                                              <th>Colaborador</th>
+                                              <th>Sede</th>
+                                              <th>Usuario</th>
                                               <th>Fecha</th>
                                               <th>Acciones</th>
                                             </tr>
@@ -229,8 +229,8 @@
                                               <th>Cedula</th>
                                               <th>Tipo de Documento</th>
                                               <th>Estado</th>
-                                              <th>Entidad</th>
-                                              <th>Colaborador</th>
+                                              <th>Sede</th>
+                                              <th>Usuario</th>
                                               <th>Fecha</th>
                                               <th>Acciones</th>
                                             </tr>
@@ -247,8 +247,8 @@
                                               <th>Cedula</th>
                                               <th>Tipo de Documento</th>
                                               <th>Estado</th>
-                                              <th>Entidad</th>
-                                              <th>Colaborador</th>
+                                              <th>Sede</th>
+                                              <th>Usuario</th>
                                               <th>Fecha</th>
                                               <th>Acciones</th>
                                             </tr>
@@ -303,8 +303,8 @@
                                               <th>Cedula</th>
                                               <th>Tipo de Documento</th>
                                               <th>Estado</th>
-                                              <th>Entidad</th>
-                                              <th>Colaborador</th>
+                                              <th>Sede</th>
+                                              <th>Usuario</th>
                                               <th>Fecha</th>
                                               <th>Acciones</th>
                                             </tr>

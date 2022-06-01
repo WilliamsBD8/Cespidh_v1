@@ -4,13 +4,11 @@
 
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/flag-icon/css/flag-icon.min.css">
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/data-tables/css/jquery.dataTables.min.css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css"> -->
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/data-tables/css/select.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/materialize-stepper/materialize-stepper.min.css">
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/pages/form-wizard.css">
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/css/table.css">
-
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/pages/data-tables.css">
 
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/pages/data-tables.css">
 
@@ -116,8 +114,8 @@
                                                                     <label>Tipo de documento</label>  
                                                                   </div>
                                                                   <div class="input-field col s12 l3">
-                                                                    <input type="text" id="autocomplete-entidad" class="autocomplete-entidad" name="entidad">
-                                                                    <label for="autocomplete-entidad">Entidad</label>
+                                                                    <input type="text" id="autocomplete-sedes" class="autocomplete-sedes" name="sede" <?= !empty($data['sede']) ? 'value="'.$data['sede'].'"' :'' ?>>
+                                                                    <label for="autocomplete-sedes">Sede</label>
                                                                   </div>
                                                                 </div>
 
@@ -158,131 +156,160 @@
                                       <div class="col s12">                                        
                                         <ul class="tabs">
                                         <?php foreach($estados as $key => $estado): ?>
-                                          <li class="tab col m3"><a href="#estado_<?= ($key+1) ?>" class="<?= $key==0?'active':'' ?>"><?= $estado->nombre ?></a></li>
-                                          <!-- <li class="tab col m3"><a href="#test2">Rechazadas</a></li>
-                                          <li class="tab col m3"><a href="#test3">Finalizado</a></li> -->
+                                          <li class="tab col m3"><a href="#estado_<?= ($key+1) ?>" <?php if(!isset($data)): ?>  class="<?= $key==0?'active':'' ?>" <?php endif ?>><?= $estado->nombre ?></a></li>
                                           <?php endforeach ?>
-                                          <li class="tab col m3"><a href="#test4">Todas</a></li>
+                                          <li class="tab col m3"><a href="#todo" <?php if(isset($data)): ?>  class="active" <?php endif ?>>Todas</a></li>
                                         </ul>
                                         <?php foreach($estados as $key => $estado): ?>  
                                       <div id="estado_<?= ($key+1) ?>" class="col s12">
-                                      <table id="table-rechazada" class="display">
-                                        <thead>
+                                        <table id="table-<?= ($key+1) ?>" class="display">
+                                          <thead>
                                             <tr>
-                                                <th>Id</th>
-                                                <th>Nombre</th>
-                                                <th>Cedula</th>
-                                                <th>Tipo de Documento</th>
-                                                <th>Estado</th>
-                                                <th>Entidad</th>
-                                                <th>Colaborador</th>
-                                                <th>Fecha</th>
-                                                <th>Acciones</th>
-                                                <!-- <th>Acciones</th> -->
+                                              <th>Id</th>
+                                              <th>Nombre</th>
+                                              <th>Cedula</th>
+                                              <th>Tipo de Documento</th>
+                                              <th>Estado</th>
+                                              <th>Entidad</th>
+                                              <th>Colaborador</th>
+                                              <th>Fecha</th>
+                                              <th>Acciones</th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                          <?php foreach($documents as $document): ?>
-                                            <?php if($document->id_estado==$estado->id_estado): ?>
-                                            <tr>
-                                                <td><?= $document->abreviacion.''.$document->id_documento ?></td>
-                                                <td><?= $document->name ?></td>
-                                                <td><?= $document->id ?></td>
-                                                <td><?= $document->descripcion ?></td>
-                                                <td><?= $document->nombre ?></td>
-                                                <td><?= $document->entidad ?></td>
-                                                <?php
-                                                  // $colaborador = 'No necesita';
-                                                  // if( $document->help)
-                                                ?>
-                                                <td><?= $document->help == 'off' ? 'No necesita': 'No asignado' ?></td>
-                                                <td><?= $document->fecha ?></td>
-                                                <td>
-                                                  <a href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento]) ?>" target="_blank">Ver</a>
-                                                  <a href="<?= base_url(['cespidh', 'edit', 'document', $document->id_documento]) ?>" target="_blank">Editar</a>
-                                                </td>
-                                                <!-- <td class="center-align">
-                                                  <a class="tooltipped" href="<?= $base_url ?>/table-edit.php" data-position="bottom" data-tooltip="Editar"><i class="material-icons grey-text">create</i></a>
-                                                  <a class="modal-trigger" href="#modal2"><i class="material-icons grey-text">more_vert</i></a>
-                                                </td> -->
-                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <?php foreach($documents as $document): ?>
+                                              <?php if($document->id_estado == $estado->id_estado): ?>
+                                              <tr>
+                                                  <td><?= $document->abreviacion.''.$document->id_documento ?></td>
+                                                  <td><?= $document->name ?></td>
+                                                  <td><?= $document->id ?></td>
+                                                  <td><?= $document->descripcion ?></td>
+                                                  <td><?= $document->nombre ?></td>
+                                                  <td><?= $document->sede ?></td>
+                                                  <td><?= $document->help == 'off' ? 'No necesita': 'No asignado' ?></td>
+                                                  <td><?= $document->fecha ?></td>
+                                                  <td>
+                                                    <div class="center-align">
+                                                      <a class="tooltipped"
+                                                        href="<?= base_url(['cespidh', 'edit', 'document', $document->id_documento]) ?>" target="_blank"
+                                                        data-position="bottom" data-tooltip="Editar"
+                                                      ><i class="material-icons grey-text">create</i></a>
+  
+                                                      <!-- Dropdown Trigger -->
+                                                      <a class="waves-effect waves-block waves-light detail-button" href="javascript:void(0);" data-coverTrigger="true" data-target='detail_<?= $document->id_documento ?>'><i class="material-icons">more_vert</i></a>
+                                                      <!-- Dropdown Structure -->
+                                                      <ul class="dropdown-content" id="detail_<?= $document->id_documento ?>">
+                                                        <li>
+                                                          <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'historial', 'document', $document->id_documento]) ?>" target="_blank">
+                                                            <i class="material-icons">history</i> Historial
+                                                          </a>
+                                                        </li>
+                                                        <li>
+                                                          <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento, 1]) ?>" target="_blank">
+                                                            <i class="material-icons">picture_as_pdf</i> Ver
+                                                          </a>
+                                                        </li>
+                                                        <li>
+                                                          <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento, 2]) ?>" target="_blank">
+                                                            <i class="material-icons">file_download</i> Descargar
+                                                          </a>
+                                                        </li>
+                                                      </ul>
+                                                    </div>
+                                                  </td>
+                                              </tr>
                                             <?php endif ?>
-                                          <?php endforeach ?>
-                                            
-                                        </tbody>
-                                        <tfoot>
+                                            <?php endforeach ?>
+                                              
+                                          </tbody>
+                                          <tfoot>
                                             <tr>
-                                                <th>Id</th>
-                                                <th>Nombre</th>
-                                                <th>Cedula</th>
-                                                <th>Tipo de Documento</th>
-                                                <th>Estado</th>
-                                                <th>Entidad</th>
-                                                <th>Colaborador</th>
-                                                <th>Fecha</th>
-                                                <th>Acciones</th>
+                                              <th>Id</th>
+                                              <th>Nombre</th>
+                                              <th>Cedula</th>
+                                              <th>Tipo de Documento</th>
+                                              <th>Estado</th>
+                                              <th>Entidad</th>
+                                              <th>Colaborador</th>
+                                              <th>Fecha</th>
+                                              <th>Acciones</th>
                                             </tr>
-                                        </tfoot>
-                                      </table>                                      
+                                          </tfoot>
+                                        </table>
                                       </div>                                    
                                       <?php endforeach ?>
-                                      <div id="test4" class="col s12">
-                                      <table id="table-rechazada" class="display">
-                                        <thead>
+                                      <div id="todo" class="col s12">
+                                        <table id="table-0" class="display">
+                                          <thead>
                                             <tr>
-                                                <th>Id</th>
-                                                <th>Nombre</th>
-                                                <th>Cedula</th>
-                                                <th>Tipo de Documento</th>
-                                                <th>Estado</th>
-                                                <th>Entidad</th>
-                                                <th>Colaborador</th>
-                                                <th>Fecha</th>
-                                                <th>Acciones</th>
-                                                <!-- <th>Acciones</th> -->
+                                              <th>Id</th>
+                                              <th>Nombre</th>
+                                              <th>Cedula</th>
+                                              <th>Tipo de Documento</th>
+                                              <th>Estado</th>
+                                              <th>Entidad</th>
+                                              <th>Colaborador</th>
+                                              <th>Fecha</th>
+                                              <th>Acciones</th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                          <?php foreach($documents as $document): ?>                                            
+                                          </thead>
+                                          <tbody>
+                                            <?php foreach($documents as $document): ?>
+                                              <tr>
+                                                  <td><?= $document->abreviacion.''.$document->id_documento ?></td>
+                                                  <td><?= $document->name ?></td>
+                                                  <td><?= $document->id ?></td>
+                                                  <td><?= $document->descripcion ?></td>
+                                                  <td><?= $document->nombre ?></td>
+                                                  <td><?= $document->sede ?></td>
+                                                  <td><?= $document->help == 'off' ? 'No necesita': 'No asignado' ?></td>
+                                                  <td><?= $document->fecha ?></td>
+                                                  <td>
+                                                    <div class="center-align">
+                                                      <a class="tooltipped"
+                                                        href="<?= base_url(['cespidh', 'edit', 'document', $document->id_documento]) ?>" target="_blank"
+                                                        data-position="bottom" data-tooltip="Editar"
+                                                      ><i class="material-icons grey-text">create</i></a>
+  
+                                                      <!-- Dropdown Trigger -->
+                                                      <a class="waves-effect waves-block waves-light detail-button" href="javascript:void(0);" data-coverTrigger="true" data-target='detail_<?= $document->id_documento ?>_0'><i class="material-icons">more_vert</i></a>
+                                                      <!-- Dropdown Structure -->
+                                                      <ul class="dropdown-content" id="detail_<?= $document->id_documento ?>_0">
+                                                        <li>
+                                                          <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'historial', 'document', $document->id_documento]) ?>" target="_blank">
+                                                            <i class="material-icons">history</i> Historial
+                                                          </a>
+                                                        </li>
+                                                        <li>
+                                                          <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento, 1]) ?>" target="_blank">
+                                                            <i class="material-icons">picture_as_pdf</i> Ver
+                                                          </a>
+                                                        </li>
+                                                        <li>
+                                                          <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento, 2]) ?>" target="_blank">
+                                                            <i class="material-icons">file_download</i> Descargar
+                                                          </a>
+                                                        </li>
+                                                      </ul>
+                                                    </div>
+                                                  </td>
+                                              </tr>
+                                            <?php endforeach ?>  
+                                          </tbody>
+                                          <tfoot>
                                             <tr>
-                                                <td><?= $document->abreviacion.''.$document->id_documento ?></td>
-                                                <td><?= $document->name ?></td>
-                                                <td><?= $document->id ?></td>
-                                                <td><?= $document->descripcion ?></td>
-                                                <td><?= $document->nombre ?></td>
-                                                <td><?= $document->entidad ?></td>
-                                                <?php
-                                                  // $colaborador = 'No necesita';
-                                                  // if( $document->help)
-                                                ?>
-                                                <td><?= $document->help == 'off' ? 'No necesita': 'No asignado' ?></td>
-                                                <td><?= $document->fecha ?></td>
-                                                <td>
-                                                  <a href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento]) ?>" target="_blank">Ver</a>
-                                                  <a href="<?= base_url(['cespidh', 'edit', 'document', $document->id_documento]) ?>" target="_blank">Editar</a>
-                                                </td>
-                                                <!-- <td class="center-align">
-                                                  <a class="tooltipped" href="<?= $base_url ?>/table-edit.php" data-position="bottom" data-tooltip="Editar"><i class="material-icons grey-text">create</i></a>
-                                                  <a class="modal-trigger" href="#modal2"><i class="material-icons grey-text">more_vert</i></a>
-                                                </td> -->
+                                              <th>Id</th>
+                                              <th>Nombre</th>
+                                              <th>Cedula</th>
+                                              <th>Tipo de Documento</th>
+                                              <th>Estado</th>
+                                              <th>Entidad</th>
+                                              <th>Colaborador</th>
+                                              <th>Fecha</th>
+                                              <th>Acciones</th>
                                             </tr>
-                                          <?php endforeach ?>
-                                            
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Nombre</th>
-                                                <th>Cedula</th>
-                                                <th>Tipo de Documento</th>
-                                                <th>Estado</th>
-                                                <th>Entidad</th>
-                                                <th>Colaborador</th>
-                                                <th>Fecha</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </tfoot>
-                                      </table>                                      
+                                          </tfoot>
+                                        </table>
                                       </div> 
                                     </div>                                                      
                                   </div>
@@ -681,7 +708,8 @@
       }
     }).then(function (willDelete) {
       if (willDelete) {
-        swal(`El Documento # ${id}!`, {
+        swal(`El Documento # ${id}!`,
+        {
           icon: "success",
         });
       } else {
@@ -703,6 +731,23 @@
 
 <script src="<?= base_url() ?>/assets/js/new_script/formulario.js"></script>
     <!-- END PAGE LEVEL JS-->
+    <script>
+      function documentos(){
+        var names = <?= json_encode(session('filtro_entidad')['names'],JSON_FORCE_OBJECT)?>;
+        return names;
+      }
+      function cedulas_aux(){
+        var cedulas = <?= json_encode(session('filtro_entidad')['ids'],JSON_FORCE_OBJECT)?>;
+        return cedulas;
+      }
+
+      function sedes_aux(){
+        var cedulas = <?= json_encode(session('filtro_entidad')['sedes'],JSON_FORCE_OBJECT)?>;
+        return cedulas;
+      }
+    </script>
+
+<script src="<?= base_url() ?>/assets/js/new_script/entidad.js"></script>
   
 
 <?= view('layouts/footer_libre') ?>

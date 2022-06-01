@@ -4,6 +4,8 @@
     </div>
 </footer>
 
+<script src="<?= base_url() ?>/assets/js/new_script/funciones.js"></script>
+
 
 
 <script src="<?= base_url() ?>/assets/js/vendors.min.js"></script>

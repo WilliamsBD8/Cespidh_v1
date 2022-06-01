@@ -42,11 +42,28 @@ class EntidadController extends BaseController
 
         $documentosM = new Documento();
         $documentos = $documentosM
+            ->select('documento.*, users.*, documento_tipo.*, documento_estado.*, sedes.name as sede')
             ->join('users', 'documento.users_id = users.id')
             ->join('documento_tipo', 'documento.id_tipo = documento_tipo.id_tipo')
             ->join('documento_estado', 'documento.id_estado = documento_estado.id_estado')
+            ->join('sedes', 'sedes.id = documento.sedes_id')
             ->orderBy('id_documento', 'DESC')
             ->get()->getResult();
+
+        $user = [];
+        $ids = [];
+        $sedes = [];
+        foreach ($documentos as $key => $document) {
+            $user[$document->name] = null;
+            $ids[$document->id] = null;
+            $sedes[$document->sede] = null;
+        }
+        $aux = [
+            'names' => $user, 'ids' => $ids, 'sedes' => $sedes
+        ];
+
+        $session = session();
+        $session->set('filtro_entidad', $aux);
         
         $estados = $documentosM
             ->select('id_estado, count(*) as total,
@@ -57,8 +74,6 @@ class EntidadController extends BaseController
 
         $tiposDocumentosM = new TiposDocumento();
         $tipos_documento = $tiposDocumentosM->get()->getResult();
-        // return var_dump($tipos_documento);
-
 
         return view('entidad/entidades' , [
             'formularios'=> $formularios,
@@ -76,8 +91,10 @@ class EntidadController extends BaseController
         $type_document = $this->request->getPost('tipo_documento');
         $date_init = $this->request->getPost('date_init');
         $date_finish = $this->request->getPost('date_finish');
+        $sede = $this->request->getPost('sede');
 
         $post = $this->request->getPost();
+        // return var_dump($post);
 
         $documentosM = new Documento();
         $documentsM = new Documento();
@@ -86,9 +103,11 @@ class EntidadController extends BaseController
         $etnia = new Etnia();
 
         $parcial = $documentosM
+            ->select('documento.*, users.*, documento_tipo.*, documento_estado.*, sedes.name as sede')
             ->join('users', 'documento.users_id = users.id')
             ->join('documento_tipo', 'documento.id_tipo = documento_tipo.id_tipo')
             ->join('documento_estado', 'documento.id_estado = documento_estado.id_estado')
+            ->join('sedes', 'sedes.id = documento.sedes_id')
             ->orderBy('id_documento', 'DESC');
 
         if(!empty($nombre))
@@ -101,6 +120,8 @@ class EntidadController extends BaseController
             $parcial = $parcial->where(['documento.fecha >=' => date('Y-m-d', strtotime($date_init)).' 00:00:00']);
         if(!empty($date_finish))
             $parcial = $parcial->where(['documento.fecha <=' => date('Y-m-d', strtotime($date_finish)).' 23:59:59']);
+        if(!empty($sede))
+            $parcial = $parcial->where(['sedes.name' => $sede]);
 
         $formularios = $formularioM
             ->join('documento_tipo', 'documento_tipo.id_tipo = formularios.documento_tipo_id_tipo')
@@ -132,13 +153,13 @@ class EntidadController extends BaseController
             (select documento_estado.icono from documento_estado where (documento_estado.id_estado = documento.id_estado)) AS icono')
             ->groupBy(['id_estado'])
             ->get()->getResult();
-        // return var_dump('hola');
 
         $tiposDocumentosM = new TiposDocumento();
         $tipos_documento = $tiposDocumentosM->get()->getResult();
 
         $data = $parcial->get()->getResult();
-        // return var_dump($post['nombre']);
+
+        // return var_dump(isset($post));
         return view('entidad/entidades' , [
             'formularios'=> $formularios,
             'etnias' => $etnia,

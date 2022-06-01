@@ -3,3 +3,5 @@
         <div class="container"><span>&copy; <?= date("Y") ?> <a href="https://www.cespidh.com/" target="_blank">CESPIDH</a> All rights reserved.</span></div>
     </div>
 </footer>
+
+<script src="<?= base_url() ?>/grocery-crud/js/libraries/jquery-ui.js"></script>

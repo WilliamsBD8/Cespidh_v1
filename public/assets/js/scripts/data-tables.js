@@ -7,9 +7,18 @@ $(function() {
 
     // Simple Data Table
 
-    $('#data-table-simple').DataTable({
-        "responsive": true,
-    });
+    for (let index = 0; index < 10; index++) {
+        $('#table-' + index).DataTable({
+            "responsive": true,
+            "ordering": false,
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "Todo"]
+            ]
+        });
+
+    }
+
 
     // Row Grouping Table
 
@@ -46,32 +55,9 @@ $(function() {
 
     // Page Length Option Table
 
-    $('#table-proceso').DataTable({
+    $('#page-length-option').DataTable({
         "responsive": true,
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "Todo"]
-        ]
-    });
-
-    $('#table-rechazada').DataTable({
-        "responsive": true,
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "Todo"]
-        ]
-    });
-
-    $('#table-finalizado').DataTable({
-        "responsive": true,
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "Todo"]
-        ]
-    });
-
-    $('#table-todas').DataTable({
-        "responsive": true,
+        "ordering": false,
         "lengthMenu": [
             [10, 25, 50, -1],
             [10, 25, 50, "Todo"]

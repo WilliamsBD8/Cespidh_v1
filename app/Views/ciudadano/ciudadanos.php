@@ -151,29 +151,31 @@
                                                                                             <span><?= $detalle->description ?></span>
                                                                                           </label>
                                                                                         </p>
-                                                                                        <div class="pl-3">
-                                                                                          <?php foreach($detalle->detalle as $detalleHijo): ?>
-                                                                                            <?php if($detalleHijo->tipo_pregunta_id == 1): ?>
-                                                                                              <div class="input-field col s12 ">
-                                                                                                  <label for="text_<?= $detalleHijo->id ?>"><?= $detalleHijo->description ?></label>
-                                                                                                  <input type="text" id="text_<?= $detalleHijo->id ?>" name="<?= $detalleHijo->campo_formulario?>" class="validate"  <?= $pregunta->descripcion ? '':'' ?>>
-                                                                                              </div>
-                                                                                            <?php elseif($detalleHijo->tipo_pregunta_id == 3): ?>
-                                                                                              <p>
-                                                                                                <label>
-                                                                                                  <input type="radio" <?= $pregunta->obligatorio  == 'Si' ? 'required':'' ?> value="<?= $detalleHijo->id ?>" name="<?= $detalle->campo_formulario ?>" class="with-gap"/>
-                                                                                                  <span><?= $detalleHijo->description ?></span>
-                                                                                                </label>
-                                                                                              </p>
-                                                                                            <?php elseif($detalleHijo->tipo_pregunta_id == 4): ?>
-                                                                                              <p>
-                                                                                                <label>
-                                                                                                  <input type="checkbox" value="<?= $detalleHijo->id ?>" name="<?= $detalle->campo_formulario ?>[]" class="filled-in"/>
-                                                                                                  <span><?= $detalleHijo->description ?></span>
-                                                                                                </label>
-                                                                                              </p>
-                                                                                            <?php endif ?>
-                                                                                          <?php endforeach ?>
+                                                                                        <div class="col s12 detalle_<?= $detalle->id ?> sub_respuestas ">
+                                                                                          <div class="pl-3">
+                                                                                            <?php foreach($detalle->detalle as $detalleHijo): ?>
+                                                                                              <?php if($detalleHijo->tipo_pregunta_id == 1): ?>
+                                                                                                <div class="input-field col s12 ">
+                                                                                                    <label for="text_<?= $detalleHijo->id ?>"><?= $detalleHijo->description ?></label>
+                                                                                                    <input type="text" id="text_<?= $detalleHijo->id ?>" name="<?= $detalleHijo->campo_formulario?>" class="validate"  <?= $pregunta->descripcion ? '':'' ?>>
+                                                                                                </div>
+                                                                                              <?php elseif($detalleHijo->tipo_pregunta_id == 3): ?>
+                                                                                                <p>
+                                                                                                  <label>
+                                                                                                    <input type="radio" <?= $pregunta->obligatorio  == 'Si' ? 'required':'' ?> value="<?= $detalleHijo->id ?>" name="<?= $detalle->campo_formulario ?>" class="with-gap"/>
+                                                                                                    <span><?= $detalleHijo->description ?></span>
+                                                                                                  </label>
+                                                                                                </p>
+                                                                                              <?php elseif($detalleHijo->tipo_pregunta_id == 4): ?>
+                                                                                                <p>
+                                                                                                  <label>
+                                                                                                    <input type="checkbox" value="<?= $detalleHijo->id ?>" name="<?= $detalle->campo_formulario ?>[]" class="filled-in"/>
+                                                                                                    <span><?= $detalleHijo->description ?></span>
+                                                                                                  </label>
+                                                                                                </p>
+                                                                                              <?php endif ?>
+                                                                                            <?php endforeach ?>
+                                                                                          </div>
                                                                                         </div>
                                                                                       <?php endforeach ?>
                                                                                     </div>
@@ -393,7 +395,7 @@
                               </div>
                             </div>
                             <div id="show" class="col s12">
-                              <table id="table-rechazada" class="display">
+                              <table id="page-length-option" class="display">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
@@ -404,8 +406,7 @@
                                         <th>Entidad</th>
                                         <th>Colaborador</th>
                                         <th>Fecha</th>
-                                        <th>Documento</th>
-                                        <!-- <th>Acciones</th> -->
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -416,21 +417,36 @@
                                         <td><?= $document->id ?></td>
                                         <td><?= $document->descripcion ?></td>
                                         <td><?= $document->nombre ?></td>
-                                        <td><?= $document->entidad ?></td>
-                                        <?php
-                                          // $colaborador = 'No necesita';
-                                          // if( $document->help)
-                                        ?>
+                                        <td><?= $document->sede ?></td>
                                         <td><?= $document->help == 'off' ? 'No necesita': 'No asignado' ?></td>
                                         <td><?= $document->fecha ?></td>
-                                        <td>
-                                          <a href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento]) ?>" target="_blank">Ver</a>
-                                          <a href="<?= base_url(['cespidh', 'edit', 'document', $document->id_documento]) ?>" target="_blank">Editar</a>
+                                        <td class="center-align">
+                                          <a class="tooltipped"
+                                            href="<?= base_url(['cespidh', 'edit', 'document', $document->id_documento]) ?>" target="_blank"
+                                            data-position="bottom" data-tooltip="Editar"
+                                          ><i class="material-icons grey-text">create</i></a>
+
+                                          <!-- Dropdown Trigger -->
+                                          <a class="waves-effect waves-block waves-light detail-button" href="javascript:void(0);" data-coverTrigger="true" data-target='detail_<?= $document->id_documento ?>'><i class="material-icons">more_vert</i></a>
+                                          <!-- Dropdown Structure -->
+                                          <ul class="dropdown-content" id="detail_<?= $document->id_documento ?>">
+                                            <li>
+                                              <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'historial', 'document', $document->id_documento]) ?>" target="_blank">
+                                                <i class="material-icons">history</i> Historial
+                                              </a>
+                                            </li>
+                                            <li>
+                                              <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento, 1]) ?>" target="_blank">
+                                                <i class="material-icons">picture_as_pdf</i> Ver
+                                              </a>
+                                            </li>
+                                            <li>
+                                              <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento, 2]) ?>" target="_blank">
+                                                <i class="material-icons">file_download</i> Descargar
+                                              </a>
+                                            </li>
+                                          </ul>
                                         </td>
-                                        <!-- <td class="center-align">
-                                          <a class="tooltipped" href="<?= $base_url ?>/table-edit.php" data-position="bottom" data-tooltip="Editar"><i class="material-icons grey-text">create</i></a>
-                                          <a class="modal-trigger" href="#modal2"><i class="material-icons grey-text">more_vert</i></a>
-                                        </td> -->
                                     </tr>
                                   <?php endforeach ?>
                                     
@@ -445,7 +461,7 @@
                                         <th>Entidad</th>
                                         <th>Colaborador</th>
                                         <th>Fecha</th>
-                                        <!-- <th>Acciones</th> -->
+                                        <th>Acciones</th>
                                     </tr>
                                 </tfoot>
                               </table>
@@ -460,6 +476,8 @@
     </div>
   </div>
 </div>
+
+
 
 <!-- Modal Structure -->
 <!-- <div id="modal2" class="modal option modal-fixed-footer">
@@ -484,9 +502,6 @@
 </div> -->
 
 
-
-<script src="<?= base_url() ?>/assets/js/new_script/funciones.js"></script>
-
 <!-- BEGIN VENDOR JS-->
 <script src="<?= base_url() ?>/assets/js/vendors.min.js"></script>
 <!-- BEGIN VENDOR JS-->
@@ -510,11 +525,6 @@
 <script>
   $(document).ready(function(){
     $('.tooltipped').tooltip();
-    $('.dropdown-trigger').dropdown({
-      constrainWidth: false, // Does not change width of dropdown to that of the activator
-      alignment: 'center', // Displays dropdown with edge aligned to the left of button
-    });
-    $('.modal').modal();
   });
 
   function delete_document(id){
@@ -552,4 +562,4 @@
     <!-- END PAGE LEVEL JS-->
   
 
-<?= view('layouts/footer') ?>
+<?= view('layouts/footer_libre') ?>

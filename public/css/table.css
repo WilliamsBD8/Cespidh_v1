@@ -88,3 +88,8 @@
     display: flex;
     justify-content: center;
 }
+
+.center-align {
+    display: flex;
+    justify-content: space-around
+}

@@ -11,6 +11,6 @@ class Documento extends Model
     protected $primaryKey = 'id';
     protected $table = 'documento';
 
-    protected $allowedFields    = ['id_documento', 'id_tipo', 'id_estado', 'users_id', 'fecha', 'help'];
+    protected $allowedFields    = ['id_documento', 'id_tipo', 'id_estado', 'users_id', 'fecha', 'help', 'sedes_id'];
 
 }

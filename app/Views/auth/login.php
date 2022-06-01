@@ -91,7 +91,7 @@
                         </div>-->
                         <div class="row">
                             <div class="input-field col s12">
-                                <button class="btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s12">
+                                <button class="btn waves-effect waves-light border-round gradient-45deg-indigo-blue col s12">
                                     Inicio de Sesion
                                 </button>
                             </div>

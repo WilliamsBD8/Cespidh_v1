@@ -9,6 +9,7 @@ use App\Models\Respuestas;
 use App\Models\Etnia;
 use App\Models\Genero;
 use App\Models\User;
+use App\Models\Work;
 use Config\Services;
 
 
@@ -42,9 +43,11 @@ class CiudadanoController extends BaseController
         // return null;
         $documentosM = new Documento();
         $documentos = $documentosM
+        ->select('documento.*, users.*, documento_tipo.*, documento_estado.*, sedes.name as sede')
         ->join('users', 'documento.users_id = users.id')
         ->join('documento_tipo', 'documento.id_tipo = documento_tipo.id_tipo')
         ->join('documento_estado', 'documento.id_estado = documento_estado.id_estado')
+        ->join('sedes', 'sedes.id = documento.sedes_id')
         ->orderBy('id_documento', 'DESC')
         ->get()->getResult();
         // return var_dump($documentos);
@@ -90,11 +93,14 @@ class CiudadanoController extends BaseController
             'id_tipo' => $tipo_documento,
             'id_estado' => 1,
             'users_id' => $id,
-            'help' => !empty($this->request->getPost('help_'.$id_formulario)) ? $this->request->getPost('help_'.$id_formulario) : 'off'
+            'help' => !empty($this->request->getPost('help_'.$id_formulario)) ? $this->request->getPost('help_'.$id_formulario) : 'off',
+            'sedes_id' => $user[0]->sedes_id
         ];
+        $workM = new Work();
         // return var_dump($info_document);
         $documentoModel->insert($info_document);
         $id_documento = $documentoModel->getInsertID();
+        $workM->insert(['observation' => 'Creación del documento', 'documento_id_documento' => $id_documento, 'users_id' => $id, 'work_type_id' => 1]);
         // $id_documento = 1;
         $formularioM = new Formularios();
         $formularioB = $formularioM->where(['id' => $id_formulario])->get()->getResult();
@@ -311,17 +317,16 @@ class CiudadanoController extends BaseController
                             break;
 
                         default:
-                            # code...
                             break;
                     }
                 }
             }
         }
-        // return;
         return redirect()->back();
     }
 
-    public function view_document($id){
+    public function view_document($id, $type){
+        // return var_dump($type);
         $documentosM = new Documento();
         $formularioM = new Formularios();
         $respuestasM = new Respuestas();
@@ -478,7 +483,7 @@ class CiudadanoController extends BaseController
                 $mpdf = new \Mpdf\Mpdf([]);
                 $mpdf->WriteHTML($plantilla, \Mpdf\HTMLParserMode::HTML_BODY);
                 $this->response->setHeader('Content-Type', 'application/pdf');
-                $mpdf->Output('$name','I');
+                $mpdf->Output($documento[0]->abreviacion.'-'.$documento[0]->id_documento.'.pdf', $type == 1 ? 'I' : 'D');
                 return ;
             }else
                 return view('errors/html/plantilla');
@@ -826,9 +831,18 @@ class CiudadanoController extends BaseController
 
     public function historial($id){
         $userM = new User();
+        $workM = new Work();
+        $documentoM = new Documento();
+        $documento = $documentoM->where(['id_documento' => $id])->get()->getResult();
+        $works = $workM->where(['documento_id_documento' => $id])->get()->getResult();
+        foreach($works as $work){
+            $work->user = $workM->User($work->users_id);
+        }
         $users = $userM->where(['role_id' => 4])->get()->GetResult();
         return view('ciudadano/historial', [
-            'colaboradores' => $users
+            'colaboradores' => $users,
+            'works' => $works,
+            'documento' => $documento[0]
         ]);
     }
 

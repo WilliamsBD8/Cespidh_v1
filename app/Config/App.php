@@ -22,6 +22,7 @@ class App extends BaseConfig
 	|
 	*/
 	public $baseURL = 'http://localhost:8081/'; 
+	// public $baseURL = 'https://cespidh.com/cms_prueba_v2/public/';
 
 	/*
 	|--------------------------------------------------------------------------

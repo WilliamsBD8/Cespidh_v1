@@ -101,26 +101,20 @@
     border-radius: 4px !important;
 }
 
-#main .section-data-tables .dataTables_wrapper .dataTables_length#table-proceso_length,
-#main .section-data-tables .dataTables_wrapper .dataTables_filter#table-proceso_filter,
-#main .section-data-tables .dataTables_wrapper .dataTables_length#table-rechazada_length,
-#main .section-data-tables .dataTables_wrapper .dataTables_filter#table-rechazada_filter {
+#main .section-data-tables .dataTables_wrapper .dataTables_length#page-length-option_length,
+#main .section-data-tables .dataTables_wrapper .dataTables_filter#page-length-option_filter {
     display: block;
 }
 
-#main .section-data-tables .dataTables_wrapper .dataTables_length#table-proceso_length label select,
-#main .section-data-tables .dataTables_wrapper .dataTables_filter#table-proceso_filter label select,
-#main .section-data-tables .dataTables_wrapper .dataTables_length#table-rechazada_length label select,
-#main .section-data-tables .dataTables_wrapper .dataTables_filter#table-rechazada_filter label select {
+#main .section-data-tables .dataTables_wrapper .dataTables_length#page-length-option_length label select,
+#main .section-data-tables .dataTables_wrapper .dataTables_filter#page-length-option_filter label select {
     display: inline-block;
     width: auto;
     height: auto;
 }
 
-#main .section-data-tables .dataTables_wrapper .dataTables_length#table-proceso_length label input,
-#main .section-data-tables .dataTables_wrapper .dataTables_filter#table-proceso_filter label input,
-#main .section-data-tables .dataTables_wrapper .dataTables_length#table-rechazada_length label input,
-#main .section-data-tables .dataTables_wrapper .dataTables_filter#table-rechazada_filter label input {
+#main .section-data-tables .dataTables_wrapper .dataTables_length#page-length-option_length label input,
+#main .section-data-tables .dataTables_wrapper .dataTables_filter#page-length-option_filter label input {
     width: auto;
     height: auto;
 }
@@ -136,38 +130,33 @@
 }
 
 #main .section-data-tables .dataTables_wrapper .dataTables_paginate,
-#main .section-data-tables .dataTables_wrapper #table-proceso_paginate,
-#main .section-data-tables .dataTables_wrapper #table-rechazada_paginate {
+#main .section-data-tables .dataTables_wrapper #page-length-option_paginate {
     margin-right: .35rem;
     margin-bottom: .75rem;
 }
 
 #main .section-data-tables .dataTables_wrapper .dataTables_paginate .paginate_button,
-#main .section-data-tables .dataTables_wrapper #table-proceso_paginate .paginate_button,
-#main .section-data-tables .dataTables_wrapper #table-rechazada_paginate .paginate_button {
+#main .section-data-tables .dataTables_wrapper #page-length-option_paginate .paginate_button {
     margin-top: .25rem;
     padding: .25em .65em;
 }
 
 #main .section-data-tables .dataTables_wrapper .dataTables_paginate .paginate_button.current,
 #main .section-data-tables .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover,
-#main .section-data-tables .dataTables_wrapper #table-proceso_paginate .paginate_button.current,
-#main .section-data-tables .dataTables_wrapper #table-proceso_paginate .paginate_button.current:hover,
-#main .section-data-tables .dataTables_wrapper #table-rechazada_paginate .paginate_button.current,
-#main .section-data-tables .dataTables_wrapper #table-rechazada_paginate .paginate_button.current:hover {
+#main .section-data-tables .dataTables_wrapper #page-length-option_paginate .paginate_button.current,
+#main .section-data-tables .dataTables_wrapper #page-length-option_paginate .paginate_button.current:hover {
     color: #fff !important;
-    border: 1px solid #3f51b5;
+    border: 1px solid #1976d2;
     border-radius: 6px;
-    background: #3f51b5;
-    box-shadow: 0 0 8px 0 #3f51b5;
+    background: #1976d2;
+    box-shadow: 0 0 8px 0 #1976d2;
 }
 
 #main .section-data-tables .dataTables_wrapper .dataTables_paginate .paginate_button:hover,
-#main .section-data-tables .dataTables_wrapper #table-proceso_paginate .paginate_button:hover,
-#main .section-data-tables .dataTables_wrapper #table-rechazada_paginate .paginate_button:hover {
+#main .section-data-tables .dataTables_wrapper #page-length-option_paginate .paginate_button:hover {
     color: #fff !important;
-    border: 1px solid #3f51b5;
+    border: 1px solid #1976d2;
     border-radius: 6px;
-    background: #3f51b5;
-    box-shadow: 0 0 8px 0 #3f51b5;
+    background: #1976d2;
+    box-shadow: 0 0 8px 0 #1976d2;
 }

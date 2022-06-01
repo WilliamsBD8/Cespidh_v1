@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Traits\Grocery;
 use App\Models\Menu;
 use App\Models\Preguntas;
+use App\Models\Documento;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class TableController extends BaseController
@@ -29,6 +30,59 @@ class TableController extends BaseController
         if($component) {
             $this->crud->setTable($component[0]->table);
             switch ($component[0]->table) {
+                case 'users':
+                    $this->crud->displayAs([
+                        'id'                    => 'Cédula',
+                        'name'                  => 'Nombre',
+                        'username'              => 'Usuario',
+                        'email'                 => 'Email',
+                        'role_id'               => 'Rol',
+                        'created_at'            => 'Registro',
+                        'status'                => 'Estado',
+                        'sedes_id'              => 'Sede',
+                        'genero_id'             => 'Genero',
+                        'phone'                 => 'Telefono',
+                        'grupo_etnia_id'        => 'Grupo etnico',
+                    ]);
+                    $this->crud->fieldType('password', 'password');
+                    $this->crud->columns(['id', 'name', 'username', 'email', 'status', 'role_id', 'photo', 'ciudad', 'direccion', 'phone', 'created_at', 'sedes_id', 'genero_id', 'grupo_etnia_id']);                
+                    $this->crud->addFields([
+                        'id', 'name', 'username', 'email', 'status', 'role_id', 'photo', 'ciudad', 'direccion', 'phone', 'sedes_id', 'genero_id', 'grupo_etnia_id'
+                        ]);
+                    $this->crud->unsetDelete();
+                    $this->crud->unsetEditFields(['role_id', 'created_at']);
+                    $this->crud->callbackBeforeUpdate(function ($stateParameters) {
+                        if (strpos($stateParameters->data['username'], " "))
+                            return (new \GroceryCrud\Core\Error\ErrorMessage())
+                                ->setMessage("No se permiten espacion en el campo 'Usuario'");
+                        $password = $stateParameters->data['password'];
+                        if (!strstr($password, '[BEFORE UPDATE]')) {
+                            $stateParameters->data['password'] = md5($password);
+                        }
+                        return $stateParameters;
+                    });
+                    $this->crud->uniqueFields(['id', 'username', 'email']);
+                    $this->crud->callbackBeforeInsert(function ($stateParameters) {
+                        if (strpos($stateParameters->data['username'], " "))
+                            return (new \GroceryCrud\Core\Error\ErrorMessage())
+                                ->setMessage("No se permiten espacion en el campo 'Usuario'");
+                        $stateParameters->insertId = $stateParameters->data['id'];
+                        $stateParameters->data['password'] = md5($stateParameters->data['id']);
+                        // $stateParameters->data['created_at'] = date('Y-m-d H:i:s');
+                        // return (new \GroceryCrud\Core\Error\ErrorMessage())
+                        //         ->setMessage($stateParameters->data['id']);
+                        return $stateParameters;
+                    });
+
+                    $this->crud->setRelation('sedes_id', 'sedes', 'name');
+                    $this->crud->setRelation('genero_id', 'genero', 'name');
+                    $this->crud->setRelation('grupo_etnia_id', 'grupo_etnia', 'name');
+                    $this->crud->setRelation('role_id', 'roles', 'name', ['id > ?' => '1']);
+                    break;
+                case 'sedes':
+                    $this->crud->unsetDelete();
+                    $this->crud->displayAs(['name' => 'Sede']);
+                    break;
                 case 'documento_estado':
                     $this->crud->unsetAdd();
                     $this->crud->unsetDelete();

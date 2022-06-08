@@ -80,8 +80,7 @@
                               <th>Usuario</th>
                               <th>Asignado a:</th>
                               <th>Observación</th>
-                              <th>Tipo</th>
-                              <th>Estado/Acciones</th>
+                              <th>Estado</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -94,7 +93,6 @@
                                   <td><?= $work->user->name ?></td>
                                   <td><?= $work->user_asigado->name ?></td>
                                   <td><?= $work->observation ?></td>
-                                  <td><?= $work->name ?></td>
                                   <td><?= $work->status ?></td>
                                 </tr>
                               <?php endif ?>

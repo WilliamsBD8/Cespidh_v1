@@ -442,7 +442,7 @@ public function view_document($id, $type){
             $mpdf = new \Mpdf\Mpdf([]);
             $mpdf->WriteHTML($plantilla, \Mpdf\HTMLParserMode::HTML_BODY);
             if($type == 3){
-                $name = date('m_d_H_i').'_'.$documento[0]->abreviacion.'-'.$documento[0]->id_documento.'.pdf';
+                $name =$documento[0]->abreviacion.'-'.$documento[0]->id_documento.'_'.date('y_m_d_H_i').'_'.'.pdf';
                 var_dump($name);
                 $mpdf->Output($name, 'F');
                 $currentLocation = $name;

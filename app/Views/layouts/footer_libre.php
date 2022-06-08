@@ -4,4 +4,10 @@
     </div>
 </footer>
 
+<!-- <script src="<?= base_url() ?>/assets/js/vendors.min.js"></script> -->
+<!-- <script src="<?= base_url() ?>/assets/js/plugins.min.js"></script>
+<script src="<?= base_url() ?>/assets/js/search.min.js"></script>
+<script src="<?= base_url() ?>/assets/js/chart.min.js"></script>
+<script src="<?= base_url() ?>/assets/js/custom-script.min.js"></script>
+<script src="<?= base_url() ?>/assets/js/dashboard-ecommerce.js"></script> -->
 <script src="<?= base_url() ?>/grocery-crud/js/libraries/jquery-ui.js"></script>

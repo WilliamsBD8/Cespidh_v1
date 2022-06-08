@@ -53,16 +53,18 @@ $routes->group('cespidh', function ($routes){
 	$routes->get('ciudadanos', 'CiudadanoController::index');
 
 	// Create
-	$routes->post('create/document', 'CiudadanoController::create');
+	$routes->post('create/document', 'DocumentController::create');
 	// $routes->get('create/document', 'CiudadanoController::create');
-	$routes->get('view/document/(:segment)/(:segment)', 'CiudadanoController::view_document/$1/$2');
+	$routes->get('view/document/(:segment)/(:segment)', 'DocumentController::view_document/$1/$2');
 
 	// Edit	
-	$routes->get('edit/document/(:segment)', 'CiudadanoController::view_edit/$1');
-	$routes->post('edit/document', 'CiudadanoController::edit_document');
+	$routes->get('edit/document/(:segment)', 'DocumentController::view_edit/$1');
+	$routes->post('edit/document', 'DocumentController::edit_document');
 
 	// Historial
-	$routes->get('historial/document/(:segment)', 'CiudadanoController::historial/$1');
+	$routes->get('historial/document/(:segment)', 'HistorialController::index/$1');
+	$routes->post('historial/work', 'HistorialController::create');
+	$routes->get('activity', 'HistorialController::index_activity');
 
 	$routes->get('entidad', 'EntidadController::index');
 	$routes->post('entidad/search', 'EntidadController::search');

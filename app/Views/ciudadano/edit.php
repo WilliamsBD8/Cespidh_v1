@@ -273,90 +273,25 @@
                                           </button>
                                       </div>
                                     <?php endif ?>
-                                    <?php if($key_2 != (count($formulario->secciones) - 1)): ?>
                                       <div class="col m4 s12 mb-3">
                                           <button class="waves-effect waves dark btn btn-primary next-step" type="submit">
                                               Siguiente
                                               <i class="material-icons right">arrow_forward</i>
                                           </button>
                                       </div>
-                                    <?php else: ?>
-                                      <div class="col m4 s12 mb-1">
-                                        <button class="waves-effect waves-dark btn btn-primary" type="submit">Submit</button>
-                                      </div>
-                                    <?php endif ?>
                                   </div>
                               </div>
                           </div>
                         </li>
                       <?php endforeach ?>
-                      <!-- <li class="step">
-                        <div class="step-title waves-effect">¿QUIÉN PRESENTA LA PETICION?</div>
+                      <li class="step">
+                        <div class="step-title waves-effect">Motivo de la edición</div>
                         <div class="step-content">
                             <div class="row">
-                                <div class="input-field col m6 s12">
-                                    <label for="name">Nombre: <span class="red-text">*</span></label>
-                                    <input type="text" class="validate" id="name" name="name" required value="<?= session('user')->name ?>">
-                                </div>
-                                <div class="input-field col m6 s12">
-                                    <label for="id">Cedula: <span class="red-text">*</span></label>
-                                    <input type="number" class="validate" id="id" name="id" required value="<?= session('user')->id ?>">
-                                </div>
-                                <div class="input-field col m6 s12">
-                                    <label for="ciudad">Ciudad: <span class="red-text">*</span></label>
-                                    <input type="text" class="validate" id="ciudad" name="ciudad" required value="<?= session('user')->ciudad ?>">
-                                </div>
-                                <div class="input-field col m6 s12">
-                                    <label for="direccion">Dirección: <span class="red-text">*</span></label>
-                                    <input type="text" class="validate" id="eventName1" name="direccion" required value="<?= session('user')->direccion ?>">
-                                </div>
-                                <div class="input-field col m6 s12">
-                                    <label for="phone">Numero de telefono</label>
-                                    <input type="text" class="" id="phone" name="phone" value="<?= session('user')->phone ?>">
-                                </div>
-                                <div class="input-field col m6 s12">
-                                    <label for="email">Correo electronico: <span class="red-text">*</span></label>
-                                    <input type="email" class="validate" id="email" name="email" required value="<?= session('user')->email ?>">
-                                </div>
-                                <div class="input-field col m6 s12">
-                                  <?php foreach($generos as $genero): ?>
-                                    <p>
-                                      <label>
-                                        <input class="with-gap" value="<?= $genero->id ?>" name="genero" type="radio" <?= $genero->id == session('user')->genero_id ? 'checked':'' ?>/>
-                                        <span><?= $genero->name ?></span>
-                                      </label>
-                                    </p>
-                                  <?php endforeach ?>
-                                </div>
-                                <div class="input-field col m6 s12">
-                                  <select name="etnia">
-                                    <option value="" disabled>Seleccione uno</option>
-                                    <?php foreach ($etnias as $etnia): ?>
-                                      <option value="<?= $etnia->id ?>" <?= $genero->id == session('user')->genero_id ? 'selected':'' ?>><?= $etnia->name ?></option>
-                                    <?php endforeach ?>
-                                    </select>
-                                  <label>¿Con cual de estos grupos te identificas?</label>
-                                </div>
-                                <div class="input-field col m6 s12">
-                                  <p>
-                                    <label>
-                                      <input type="checkbox" name="autoriza"/>
-                                      <span>Autoriza firma (Crear firma digital)</span>
-                                    </label>
-                                  </p>
-                                  <p>
-                                    <label>
-                                      <input type="checkbox" name="condiciones"/>
-                                      <span>Acepta términos y condiciones</span>
-                                    </label>
-                                  </p>
-                                  <p>
-                                    <label>
-                                      <input type="checkbox" name="help_<?= $formulario->id ?>"/>
-                                      <span>Necesita ayuda en el proceso de verificación del documento</span>
-                                    </label>
-                                  </p>
-                                </div>
+                              <div class="input-field">
+                                <textarea id="observation" class="materialize-textarea" name="observation"></textarea>
+                                <label for="observation">Motivo</label>
+                              </div>
                             </div>
                             <div class="step-actions">
                                 <div class="row">
@@ -378,7 +313,7 @@
                                 </div>
                             </div>
                         </div>
-                      </li> -->
+                      </li>
                     </ul>
                   </form>
                 </div>

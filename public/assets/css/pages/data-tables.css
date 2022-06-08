@@ -4,6 +4,7 @@
 
 #main .section-data-tables .dataTables_wrapper table.dataTable {
     width: 100% !important;
+    /* background-color: green; */
 }
 
 #main .section-data-tables .dataTables_wrapper table.dataTable thead th {
@@ -101,28 +102,29 @@
     border-radius: 4px !important;
 }
 
-#main .section-data-tables .dataTables_wrapper .dataTables_length#page-length-option_length,
-#main .section-data-tables .dataTables_wrapper .dataTables_filter#page-length-option_filter {
+#main .section-data-tables .dataTables_wrapper .dataTables_length,
+#main .section-data-tables .dataTables_wrapper .dataTables_filter {
     display: block;
 }
 
-#main .section-data-tables .dataTables_wrapper .dataTables_length#page-length-option_length label select,
-#main .section-data-tables .dataTables_wrapper .dataTables_filter#page-length-option_filter label select {
+#main .section-data-tables .dataTables_wrapper .dataTables_length label select,
+#main .section-data-tables .dataTables_wrapper .dataTables_filter label select {
     display: inline-block;
     width: auto;
     height: auto;
 }
 
-#main .section-data-tables .dataTables_wrapper .dataTables_length#page-length-option_length label input,
-#main .section-data-tables .dataTables_wrapper .dataTables_filter#page-length-option_filter label input {
+#main .section-data-tables .dataTables_wrapper .dataTables_length label input,
+#main .section-data-tables .dataTables_wrapper .dataTables_filter label input {
     width: auto;
     height: auto;
 }
 
-#main .section-data-tables .dataTables_wrapper .dataTables_length,
+
+/* #main .section-data-tables .dataTables_wrapper .dataTables_length,
 #main .section-data-tables .dataTables_wrapper .dataTables_filter {
     display: none;
-}
+} */
 
 #main .section-data-tables .dataTables_wrapper .dataTables_info {
     margin-left: 18px;
@@ -130,21 +132,21 @@
 }
 
 #main .section-data-tables .dataTables_wrapper .dataTables_paginate,
-#main .section-data-tables .dataTables_wrapper #page-length-option_paginate {
+#main .section-data-tables .dataTables_wrapper {
     margin-right: .35rem;
     margin-bottom: .75rem;
 }
 
 #main .section-data-tables .dataTables_wrapper .dataTables_paginate .paginate_button,
-#main .section-data-tables .dataTables_wrapper #page-length-option_paginate .paginate_button {
+#main .section-data-tables .dataTables_wrapper .paginate_button {
     margin-top: .25rem;
     padding: .25em .65em;
 }
 
 #main .section-data-tables .dataTables_wrapper .dataTables_paginate .paginate_button.current,
 #main .section-data-tables .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover,
-#main .section-data-tables .dataTables_wrapper #page-length-option_paginate .paginate_button.current,
-#main .section-data-tables .dataTables_wrapper #page-length-option_paginate .paginate_button.current:hover {
+#main .section-data-tables .dataTables_wrapper .paginate_button.current,
+#main .section-data-tables .dataTables_wrapper .paginate_button.current:hover {
     color: #fff !important;
     border: 1px solid #1976d2;
     border-radius: 6px;
@@ -153,7 +155,7 @@
 }
 
 #main .section-data-tables .dataTables_wrapper .dataTables_paginate .paginate_button:hover,
-#main .section-data-tables .dataTables_wrapper #page-length-option_paginate .paginate_button:hover {
+#main .section-data-tables .dataTables_wrapper .paginate_button:hover {
     color: #fff !important;
     border: 1px solid #1976d2;
     border-radius: 6px;

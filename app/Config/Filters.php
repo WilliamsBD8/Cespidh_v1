@@ -41,14 +41,16 @@ class Filters extends BaseConfig
             'before' => [
                 'home',
                 'table/*',
-                'config/*'
+                'config/*',
+                'cespidh/*'
             ]
         ],
         'permission' => [
             'before' => [
                 'home',
                 'table/*',
-                'config/*'
+                'config/*',
+                'cespidh/*'
             ]
         ]
     ];

@@ -420,32 +420,34 @@
                                         <td><?= $document->sede ?></td>
                                         <td><?= $document->help == 'off' ? 'No necesita': 'No asignado' ?></td>
                                         <td><?= $document->fecha ?></td>
-                                        <td class="center-align">
-                                          <a class="tooltipped"
-                                            href="<?= base_url(['cespidh', 'edit', 'document', $document->id_documento]) ?>" target="_blank"
-                                            data-position="bottom" data-tooltip="Editar"
-                                          ><i class="material-icons grey-text">create</i></a>
-
-                                          <!-- Dropdown Trigger -->
-                                          <a class="waves-effect waves-block waves-light detail-button" href="javascript:void(0);" data-coverTrigger="true" data-target='detail_<?= $document->id_documento ?>'><i class="material-icons">more_vert</i></a>
-                                          <!-- Dropdown Structure -->
-                                          <ul class="dropdown-content" id="detail_<?= $document->id_documento ?>">
-                                            <li>
-                                              <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'historial', 'document', $document->id_documento]) ?>" target="_blank">
-                                                <i class="material-icons">history</i> Historial
-                                              </a>
-                                            </li>
-                                            <li>
-                                              <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento, 1]) ?>" target="_blank">
-                                                <i class="material-icons">picture_as_pdf</i> Ver
-                                              </a>
-                                            </li>
-                                            <li>
-                                              <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento, 2]) ?>" target="_blank">
-                                                <i class="material-icons">file_download</i> Descargar
-                                              </a>
-                                            </li>
-                                          </ul>
+                                        <td>
+                                          <div class="center-align">
+                                            <a class="tooltipped"
+                                              href="<?= base_url(['cespidh', 'edit', 'document', $document->id_documento]) ?>" target="_blank"
+                                              data-position="bottom" data-tooltip="Editar"
+                                            ><i class="material-icons grey-text">create</i></a>
+  
+                                            <!-- Dropdown Trigger -->
+                                            <a class="waves-effect waves-block waves-light detail-button" href="javascript:void(0);" data-coverTrigger="true" data-target='detail_<?= $document->id_documento ?>'><i class="material-icons">more_vert</i></a>
+                                            <!-- Dropdown Structure -->
+                                            <ul class="dropdown-content" id="detail_<?= $document->id_documento ?>">
+                                              <li>
+                                                <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'historial', 'document', $document->id_documento]) ?>" target="_blank">
+                                                  <i class="material-icons">history</i> Historial
+                                                </a>
+                                              </li>
+                                              <li>
+                                                <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento, 1]) ?>" target="_blank">
+                                                  <i class="material-icons">picture_as_pdf</i> Ver
+                                                </a>
+                                              </li>
+                                              <li>
+                                                <a class="blue-text text-darken-1" href="<?= base_url(['cespidh', 'view', 'document', $document->id_documento, 2]) ?>" target="_blank">
+                                                  <i class="material-icons">file_download</i> Descargar
+                                                </a>
+                                              </li>
+                                            </ul>
+                                          </div>
                                         </td>
                                     </tr>
                                   <?php endforeach ?>
@@ -506,7 +508,7 @@
 <script src="<?= base_url() ?>/assets/js/vendors.min.js"></script>
 <!-- BEGIN VENDOR JS-->
 <!-- BEGIN PAGE VENDOR JS-->
-<script src="<?= base_url() ?>/assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+<script src="<?= base_url() ?>/assets/vendors/data-tables/js/jquery.dataTables.js"></script>
 <script src="<?= base_url() ?>/assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
 <script src="<?= base_url() ?>/assets/vendors/data-tables/js/dataTables.select.min.js"></script>
 
@@ -538,7 +540,8 @@
       }
     }).then(function (willDelete) {
       if (willDelete) {
-        swal(`El Documento # ${id}!`, {
+        swal(`El Documento # ${id}!`,
+        {
           icon: "success",
         });
       } else {

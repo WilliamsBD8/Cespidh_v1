@@ -7,17 +7,19 @@ $(function() {
 
     // Simple Data Table
 
-    for (let index = 0; index < 10; index++) {
-        $('#table-' + index).DataTable({
-            "responsive": true,
-            "ordering": false,
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "Todo"]
-            ]
-        });
-
-    }
+    $('table.display').DataTable({
+        "responsive": false,
+        order: [
+            [0, 'desc']
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "Todo"]
+        ],
+        language: {
+            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+        },
+    });
 
 
     // Row Grouping Table
@@ -55,14 +57,17 @@ $(function() {
 
     // Page Length Option Table
 
-    $('#page-length-option').DataTable({
-        "responsive": true,
-        "ordering": false,
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "Todo"]
-        ]
-    });
+    // $('#page-length-option').DataTable({
+    //     "responsive": true,
+    //     "ordering": false,
+    //     "lengthMenu": [
+    //         [10, 25, 50, -1],
+    //         [10, 25, 50, "Todo"]
+    //     ],
+    //     language: {
+    //         url: "../assets/js/new_script/esp-tables.json"
+    //     },
+    // });
 
     // Dynmaic Scroll table
 

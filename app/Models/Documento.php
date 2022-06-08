@@ -13,4 +13,10 @@ class Documento extends Model
 
     protected $allowedFields    = ['id_documento', 'id_tipo', 'id_estado', 'users_id', 'fecha', 'help', 'sedes_id'];
 
+    public function Asignar($id){
+        return $this->builder('work')
+            ->select('users.name')
+            ->join('users', 'work.user_aux = users.id')
+            ->where(["documento_id_documento" => $id, "work.status" => "Aceptado"])->get()->getFirstRow();
+    }
 }

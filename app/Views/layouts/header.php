@@ -16,6 +16,8 @@
     <title><?= isset(configInfo()['name_app']) ? configInfo()['name_app'] : '' ?></title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/sweetalert/sweetalert.css">
+
 
 
     <!-- BEGIN: VENDOR CSS-->

@@ -22,7 +22,7 @@ class PermissionFilter implements FilterInterface
         $permission = new Permission();
         if($url == 'table' || $url == 'config') {
             if(!empty($request->uri->getSegment(3)))
-                $method .= '/'.$request->uri->getSegment(3);
+            $method .= '/'.$request->uri->getSegment(3);
             $data = $permission->select('*')
                 ->join('menus', 'menus.id = permissions.menu_id')
                 ->join('roles', 'roles.id = permissions.role_id')
@@ -35,16 +35,20 @@ class PermissionFilter implements FilterInterface
             }
         } else {
             if($url != 'home') {
-
+                $url_2 =  $request->uri->getSegment(2);
+                $method_2 =  $request->uri->getSegment(3);
+                if(!empty($method))
+                    $url_2 = $url.'/'.$method_2;
                 $data = $permission->select('*')
-                    ->join('menus', 'menus.id = permissions.menu_id')
+                ->join('menus', 'menus.id = permissions.menu_id')
                     ->join('roles', 'roles.id = permissions.role_id')
-                    ->where(['menus.url' => $url . '/' . $method, 'role_id' => session('user')->role_id])
+                    ->where(['menus.url' => $url_2, 'role_id' => session('user')->role_id])
                     ->get()
                     ->getResult();
-                if (!$data && session('user')->role_id != 1) {
-                    echo  view('errors/html/error_401');
-                    exit;
+                // var_dump($url . '/' . $method);
+                if (!$data && session('user')->role_id != 1 && $method != 'view') {
+                    // echo  view('errors/html/error_401');
+                    // exit;
                 }
             }
         }

@@ -21,10 +21,10 @@ $(function() {
     $('#characters-demo').formatter({
         'pattern': '{{aaaaaaaaaa}}',
     });
-    $('.phone-input').formatter({
-        'pattern': '{{999}}-{{999}}-{{9999}}',
-        'persistent': true
-    });
+    // $('.phone-input').formatter({
+    //     'pattern': '{{999}}-{{999}}-{{9999}}',
+    //     'persistent': true
+    // });
     // Advanced
 
     $('#phone-demo').formatter({

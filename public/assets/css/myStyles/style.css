@@ -51,3 +51,41 @@
 .btn.large {
     width: 100%
 }
+
+.sub_respuestas {
+    display: block;
+    height: 0;
+    overflow: hidden;
+    transition: all 500ms easy;
+    -webkit-transition: all 500ms easy;
+    -moz-transition: all 500ms easy;
+    -ms-transition: all 500ms easy;
+    -o-transition: all 500ms easy;
+}
+
+.sub_respuestas.active {
+    height: 100%;
+}
+
+.bettwen-align {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.bettwen-align button {
+    margin: 2px 0;
+}
+
+.tabs-content.carousel.carousel-slider {
+    /* background-color: red; */
+    min-height: 800px !important;
+}
+
+.a-icon i {
+    font-size: 25px;
+}
+
+.select2-container {
+    z-index: 1061;
+}

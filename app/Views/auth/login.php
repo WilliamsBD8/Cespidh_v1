@@ -47,7 +47,7 @@
                     <form class="login-form" action="<?= base_url() ?>/validation" method="POST">
                         <div class="row">
                             <div class="input-field col s12">
-                                <h5 class="ml-4">Inicio de Sesion</h5>
+                                <h5 class="ml-4">Inicio de Sesión</h5>
                             </div>
                         </div>
                         <div class="row margin">
@@ -92,14 +92,14 @@
                         <div class="row">
                             <div class="input-field col s12">
                                 <button class="btn waves-effect waves-light border-round gradient-45deg-indigo-blue col s12">
-                                    Inicio de Sesion
+                                    Inicio de Sesión
                                 </button>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-field col s6 m6 l6">
+                            <!-- <div class="input-field col s6 m6 l6">
                                 <p class="margin medium-small"><a href="<?= base_url() ?>/register">Registrate</a></p>
-                            </div>
+                            </div> -->
                             <div class="input-field col s6 m6 l6">
                                 <p class="margin right-align medium-small"><a href="<?= base_url() ?>/reset_password">¿Olvide
                                         mi contraseña?</a></p>

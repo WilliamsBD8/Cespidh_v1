@@ -4,10 +4,35 @@
     </div>
 </footer>
 
-<!-- <script src="<?= base_url() ?>/assets/js/vendors.min.js"></script> -->
-<!-- <script src="<?= base_url() ?>/assets/js/plugins.min.js"></script>
-<script src="<?= base_url() ?>/assets/js/search.min.js"></script>
-<script src="<?= base_url() ?>/assets/js/chart.min.js"></script>
-<script src="<?= base_url() ?>/assets/js/custom-script.min.js"></script>
-<script src="<?= base_url() ?>/assets/js/dashboard-ecommerce.js"></script> -->
-<script src="<?= base_url() ?>/grocery-crud/js/libraries/jquery-ui.js"></script>
+<!-- BEGIN VENDOR JS-->
+<script src="<?= base_url() ?>/assets/js/vendors.min.js"></script>
+<!-- BEGIN VENDOR JS-->
+<!-- BEGIN PAGE VENDOR JS-->
+<script src="<?= base_url() ?>/assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+<script src="<?= base_url() ?>/assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?= base_url() ?>/assets/vendors/data-tables/js/dataTables.select.min.js"></script>
+
+<script src="<?= base_url() ?>/assets/vendors/materialize-stepper/materialize-stepper.min.js"></script>
+<!-- END PAGE VENDOR JS-->
+<!-- BEGIN THEME  JS-->
+<script src="<?= base_url() ?>/assets/js/plugins.js"></script>
+<script src="<?= base_url() ?>/assets/js/search.js"></script>
+<script src="<?= base_url() ?>/assets/js/custom/custom-script.js"></script>
+<script src="<?= base_url() ?>/assets/js/scripts/data-tables.js"></script>
+
+
+<script src="<?= base_url() ?>/assets/vendors/sweetalert/sweetalert.min.js"></script>
+
+<script src="<?= base_url() ?>/assets/js/scripts/extra-components-sweetalert.js"></script>
+
+
+<script src="<?= base_url() ?>/assets/js/new_script/funciones.js"></script>
+
+
+<!-- BEGIN PAGE LEVEL JS-->
+<script src="<?= base_url() ?>/assets/js/scripts/form-wizard.js"></script>
+
+
+<script src="<?= base_url() ?>/assets/vendors/formatter/jquery.formatter.js"></script>
+
+<script src="<?= base_url() ?>/assets/js/scripts/form-masks.js"></script>

@@ -8,6 +8,7 @@ use App\Traits\Grocery;
 use App\Models\Menu;
 use App\Models\Preguntas;
 use App\Models\Documento;
+use App\Models\Terminos;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class TableController extends BaseController
@@ -113,6 +114,15 @@ class TableController extends BaseController
                 break;
                 case 'tipo_pregunta':
                     if(session('user')->roles_id != 1){
+                        $this->crud->unsetAdd();
+                        $this->crud->unsetDelete();
+                    }
+                    break;
+                case 'terminos_condiciones':
+                    $this->crud->setTexteditor(['text']);
+                    $terminos = new Terminos();
+                    $count = $terminos->countAllResults();
+                    if($count == 1){
                         $this->crud->unsetAdd();
                         $this->crud->unsetDelete();
                     }

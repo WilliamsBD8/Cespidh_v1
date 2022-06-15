@@ -19,6 +19,12 @@
 <script src="<?= base_url() ?>/grocery-crud/js/libraries/jquery-ui.js"></script>
 <script src="<?= base_url() ?>/grocery-crud/js/build/grocery-crud-v2.8.1.0659b25.js"></script>
 <script src="<?= base_url() ?>/grocery-crud/js/build/load-grocery-crud.js"></script>
+
+
+<script>
+    feather.replace()
+</script>
+
 </body>
 </html>
 

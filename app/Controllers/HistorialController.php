@@ -20,6 +20,8 @@ class HistorialController extends BaseController
     $workM = new Work();
     $documentoM = new Documento();
     $documento = $documentoM
+      ->select('documento.*, documento_tipo.abreviacion, documento_tipo.descripcion')
+      ->join('documento_tipo', 'documento.id_tipo = documento_tipo.id_tipo')
       ->where(['id_documento' => $id])->get()->getResult();
     $works = $workM
       ->select('work.*, work_type.id as work_type_id, work_type.name as name')
@@ -37,6 +39,7 @@ class HistorialController extends BaseController
         ->select('users.*, roles.name as rol')
         ->join('roles', 'users.role_id = roles.id')
         ->get()->getResult();
+    // return var_dump($documento);
     return view('ciudadano/historial', [
         'usuarios' => $users,
         'works' => $works,
@@ -59,10 +62,10 @@ class HistorialController extends BaseController
           'users_id' => session('user')->id,
           'work_type_id' => 2,
           'user_aux' => $user,
-          'status' => 'Aceptado'
+          'status' => 'Pendiente'
         ];
         $workM->set(['finish_at' => date('Y-m-d H:i:s'), 'status' => 'Finalizado'])
-          ->where(['documento_id_documento' => $id_documento, 'status' => 'Aceptado', 'work_type_id' => 2])->update();
+          ->where(['documento_id_documento' => $id_documento, 'status' => 'Pendiente', 'work_type_id' => 2])->update();
         $workM->insert($data);
         break;
     }
@@ -87,5 +90,25 @@ class HistorialController extends BaseController
     return view('pages/activity', [
       'works' => $works
     ]);
+  }
+
+  public function download($work_id, $name){
+    if(preg_match('/docx|pdf/', $name)){
+      $file = explode('.', $name);
+      if($work_id == 3)
+        $type = 'upload';
+      else
+        $type = $file[1] == 'docx' ? 'word' : 'pdf';
+      $file = "docs/$type/$name";
+      if (file_exists($file)) {
+          header("Content-type: application/octet-stream");
+          header("Content-disposition: attachment; filename=$name");
+          readfile($file);
+      } else {
+        return view('errors/html/error_404');
+      }
+    }else{
+      return view('errors/html/error_404');
+    }
   }
 }

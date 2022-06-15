@@ -1,25 +1,4 @@
 <?= view('layouts/header') ?>
-<!-- <?= view('layouts/navbar_vertical') ?> -->
-
-
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/flag-icon/css/flag-icon.min.css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/data-tables/css/jquery.dataTables.min.css">
-<!-- <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css"> -->
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/data-tables/css/select.dataTables.min.css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/materialize-stepper/materialize-stepper.min.css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/pages/form-wizard.css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/css/table.css">
-
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/pages/data-tables.css">
-
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/pages/page-faq.css">
-
-
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/sweetalert/sweetalert.css">
-
-
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/pages/app-file-manager.css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/pages/widget-timeline.css">
 <?= view('layouts/navbar_horizontal')?>
 
 <div id="main">
@@ -43,24 +22,23 @@
     <div class="row">
       
     <?php foreach($estados as $estado): ?>
-            <div class="col s12 m6 l4">
-              <div class="card padding-4 animate fadeLeft">
-                  <div class="row">                  
-                      <div class="col s5 m5">
-                          <h5 class="mb-0"><?= $estado->total ?></h5>
-                          <p class="no-margin"><?= $estado->nombre ?></p>
-                      </div>
-                      <div class="col s7 m7 right-align">
-                          <i class="material-icons background-round mt-5 mb-5  blue lighten-4 blue-text indicadores"><?= !empty($estado->icono) ? $estado->icono : 'adjust' ?></i>
-                      </div>                    
-                  </div>                
-              </div>
-            </div>      
-            <?php endforeach ?>
+      <div class="col s12 m6 l4">
+        <div class="card padding-4 animate fadeLeft">
+            <div class="row">                  
+                <div class="col s5 m5">
+                    <h5 class="mb-0"><?= $estado->total ?></h5>
+                    <p class="no-margin"><?= $estado->nombre ?></p>
+                </div>
+                <div class="col s7 m7 right-align">
+                    <i class="material-icons background-round mt-5 mb-5  blue lighten-4 blue-text indicadores"><?= !empty($estado->icono) ? $estado->icono : 'adjust' ?></i>
+                </div>                    
+            </div>                
+        </div>
+      </div>      
+    <?php endforeach ?>
     </div>
     <div class="col s12">
       <div class="container">        
-        <div class="section section-data-tables">
           <!-- Page Length Options -->
           <div class="row">
             <div class="col s12">
@@ -77,7 +55,6 @@
                                         <li class="tab col m6"><a href="#show">Nuevo Documento</a></li>
                                       </ul>                              
                                     </div>
-                                    <div id="documentos" class="col s12">
                                     <div id="new" class="col s12">
                                       <div class="section" id="faq">
                                         <div class="faq">
@@ -125,25 +102,31 @@
                                                                     <label for="autocomplete-usuarios">Usuario</label>                                                    
                                                                   </div>
                                                                   <div class="input-field col s12 l4">
-                                                                    <input type="text" class="datepicker" id="date-inicial" name="date_init">
+                                                                    <input type="date" id="date-inicial" name="date_init">
                                                                     <label for="date-inicial">Fecha inicial</label>
                                                                   </div>
                                                                   <div class="input-field col s12 l4">
-                                                                    <input type="text" class="datepicker" id="date-final" name="date_finish">
+                                                                    <input type="date" id="date-final" name="date_finish">
                                                                     <label for="date-final">Fecha final</label>
                                                                   </div>
                                                                 </div>
                                                               </div>
                                                             </div>
+                                                            <!-- <button class="btn waves-effect waves-light blue" onclick="filtrar()">Filtrar
+                                                                <i class="material-icons right">send</i>
+                                                              </button> -->
+                                                          </form>
+                                                          <div class="col s12">
                                                             <div class="div-center pb-1">
-                                                              <button class="btn waves-effect waves-light blue" type="submit">Filtrar
+                                                              <button class="btn waves-effect waves-light blue" onclick="filtrar()">Filtrar
                                                                 <i class="material-icons right">send</i>
                                                               </button>
                                                               <a class="btn waves-effect waves-light red lighten-1" href="<?= base_url(['cespidh', 'entidad']) ?>">Resetear
                                                                 <i class="material-icons right">close</i>
                                                               </a>
                                                             </div>
-                                                          </form>
+
+                                                          </div>
                                                         </div>
                                                       </div>
                                                   </li>
@@ -158,7 +141,7 @@
                                         <?php foreach($estados as $key => $estado): ?>
                                           <li class="tab col m3"><a href="#estado_<?= ($key+1) ?>" <?php if(!isset($data)): ?>  class="<?= $key==0?'active':'' ?>" <?php endif ?>><?= $estado->nombre ?></a></li>
                                           <?php endforeach ?>
-                                          <li class="tab col m3"><a href="#todo" <?php if(isset($data)): ?>  class="active" <?php endif ?>>Todas</a></li>
+                                          <li class="tab col m3 todo-tab"><a href="#todo" <?php if(isset($data)): ?>  class="active" <?php endif ?>>Todas</a></li>
                                         </ul>
                                         <?php foreach($estados as $key => $estado): ?>  
                                           <div id="estado_<?= ($key+1) ?>" class="col s12">
@@ -190,7 +173,7 @@
                                                         <?php if($document->help == 'off'): ?>
                                                           No necesita
                                                         <?php elseif(!empty($document->asignacion)): ?>
-                                                          <?= $document->asignacion->name ?>
+                                                          <?= $document->asignacion ?>
                                                         <?php else: ?>
                                                           No asignado
                                                         <?php endif ?>
@@ -274,7 +257,7 @@
                                                       <?php if($document->help == 'off'): ?>
                                                         No necesita
                                                       <?php elseif(!empty($document->asignacion)): ?>
-                                                        <?= $document->asignacion->name ?>
+                                                        <?= $document->asignacion ?>
                                                       <?php else: ?>
                                                         No asignado
                                                       <?php endif ?>
@@ -346,6 +329,7 @@
                                                         <form id="form-<?= $formulario->id ?>" method="POST" action="<?= base_url(['cespidh', 'create', 'document']) ?>" enctype="multipart/form-data" autocomplete="off">
                                                             <input type="hidden" value="<?= $formulario->documento_tipo_id_tipo ?>" name="tipo_documento">
                                                             <input type="hidden" value="<?= $formulario->id ?>" name="id_formulario">
+                                                            <input type="hidden" value="<?= base_url(['cespidh', 'entidad']) ?>" name="url">
                                                             <ul class="stepper linear" id="linearStepper<?= $key ?>">
                                                               <?php foreach($formulario->secciones as $key_2 => $seccion): ?>
                                                                 <li class="step<?= $key_2 == 0 ? ' active': '' ?>">
@@ -577,30 +561,30 @@
                                                                   <div class="step-content">
                                                                       <div class="row">
                                                                           <div class="input-field col m6 s12">
-                                                                              <label for="id">Cedula: <span class="red-text">*</span></label>
-                                                                              <input required type="text" onblur="buscar_user(<?= $formulario->id ?>)" class="validate autocomplete-usuarios_form" id="id" name="id">
+                                                                              <label for="id-<?= $formulario->id ?>">Cedula: <span class="red-text">*</span></label>
+                                                                              <input required type="text" onblur="buscar_user(<?= $formulario->id ?>)" class="validate autocomplete-usuarios_form" id="id-<?= $formulario->id ?>" name="cedula">
                                                                           </div>
                                                                           <div class="input-field col m6 s12">
-                                                                              <label for="name">Nombre: <span class="red-text">*</span></label>
-                                                                              <input type="text" class="validate" id="name" name="name" required>
+                                                                              <label for="name-<?= $formulario->id ?>">Nombre: <span class="red-text">*</span></label>
+                                                                              <input type="text" class="validate" id="name-<?= $formulario->id ?>" name="name" required>
                                                                           </div>
                                                                           <div class="input-field col m6 s12">
-                                                                              <label for="ciudad">Ciudad: <span class="red-text">*</span></label>
-                                                                              <input required type="text" class="validate" id="ciudad" name="ciudad">
+                                                                              <label for="ciudad-<?= $formulario->id ?>">Ciudad: <span class="red-text">*</span></label>
+                                                                              <input required type="text" class="validate" id="ciudad-<?= $formulario->id ?>" name="ciudad">
                                                                           </div>
                                                                           <div class="input-field col m6 s12">
-                                                                              <label for="direccion">Dirección: <span class="red-text">*</span></label>
-                                                                              <input required type="text" class="validate" id="direccion" name="direccion">
+                                                                              <label for="direccion-<?= $formulario->id ?>">Dirección: <span class="red-text">*</span></label>
+                                                                              <input required type="text" class="validate" id="direccion-<?= $formulario->id ?>" name="direccion">
                                                                           </div>
                                                                           <div class="input-field col m6 s12">
-                                                                              <label for="phone">Numero de telefono: <span class="red-text">*</span></label>
-                                                                              <input required type="text" class="" id="phone" name="phone">
+                                                                              <label for="phone-<?= $formulario->id ?>">Numero de telefono: <span class="red-text">*</span></label>
+                                                                              <input required type="text" class="" id="phone-<?= $formulario->id ?>" name="phone">
                                                                           </div>
                                                                           <div class="input-field col m6 s12">
-                                                                              <label for="email">Correo electronico: <span class="red-text">*</span></label>
-                                                                              <input required type="email" class="validate" id="email" name="email">
+                                                                              <label for="email-<?= $formulario->id ?>">Correo electronico: <span class="red-text">*</span></label>
+                                                                              <input required type="email" class="validate" id="email-<?= $formulario->id ?>" name="email">
                                                                           </div>
-                                                                          <div class="input-field col m6 s12">
+                                                                          <div class="input-field col m6 s12 genero-<?= $formulario->id ?>">
                                                                             <?php foreach($generos as $genero): ?>
                                                                               <p>
                                                                                 <label>
@@ -611,7 +595,7 @@
                                                                             <?php endforeach ?>
                                                                           </div>
                                                                           <div class="input-field col m6 s12">
-                                                                            <select name="etnia" id="etnia">
+                                                                            <select name="etnia" id="etnia-<?= $formulario->id ?>">
                                                                               <option id="etnia_vacio" selected value="" disabled>Seleccione grupo etnico</option>
                                                                               <?php foreach ($etnias as $etnia): ?>
                                                                                 <option id="etnia_<?= $etnia->id ?>" value="<?= $etnia->id ?>"><?= $etnia->name ?></option>
@@ -622,14 +606,14 @@
                                                                           <div class="input-field col m6 s12">
                                                                             <p>
                                                                               <label>
-                                                                                <input type="checkbox" name="autoriza"/>
+                                                                                <input type="checkbox" name="firma_<?= $formulario->id ?>"/>
                                                                                 <span>Autoriza firma (Crear firma digital)</span>
                                                                               </label>
                                                                             </p>
                                                                             <p>
                                                                               <label>
-                                                                                <input type="checkbox" name="condiciones"/>
-                                                                                <span>Acepta términos y condiciones</span>
+                                                                                <input type="checkbox" name="terminos_<?= $formulario->id ?>"/>
+                                                                                <span>Acepta términos y condiciones <a href="javascript:void(0)" onclick="terminos();">Ver</a></span>
                                                                               </label>
                                                                             </p>
                                                                             <p>
@@ -655,7 +639,7 @@
                                                                                   </button>
                                                                               </div>
                                                                               <div class="col m4 s12 mb-1">
-                                                                                  <button class="waves-effect waves-dark btn btn-primary" type="submit">Submit</button>
+                                                                                  <button class="waves-effect waves-dark btn btn-primary btn-<?= $formulario->id ?>" type="button" onclick="guardar(<?= $formulario->id ?>)">Submit</button>
                                                                               </div>
                                                                           </div>
                                                                       </div>
@@ -680,34 +664,12 @@
               </div>
             </div>
           </div>
-        </div>
       </div> 
     </div>   
   </div>
 </div>
 
-
-
-<!-- BEGIN VENDOR JS-->
-<script src="<?= base_url() ?>/assets/js/vendors.min.js"></script>
-<!-- BEGIN VENDOR JS-->
-<!-- BEGIN PAGE VENDOR JS-->
-<script src="<?= base_url() ?>/assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
-<script src="<?= base_url() ?>/assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?= base_url() ?>/assets/vendors/data-tables/js/dataTables.select.min.js"></script>
-
-<script src="<?= base_url() ?>/assets/vendors/materialize-stepper/materialize-stepper.min.js"></script>
-<!-- END PAGE VENDOR JS-->
-<!-- BEGIN THEME  JS-->
-<script src="<?= base_url() ?>/assets/js/plugins.js"></script>
-<script src="<?= base_url() ?>/assets/js/search.js"></script>
-<script src="<?= base_url() ?>/assets/js/custom/custom-script.js"></script>
-<script src="<?= base_url() ?>/assets/js/scripts/data-tables.js"></script>
-
-
-<script src="<?= base_url() ?>/assets/vendors/sweetalert/sweetalert.min.js"></script>
-
-<script src="<?= base_url() ?>/assets/js/scripts/extra-components-sweetalert.js"></script>
+<?= view('layouts/footer_libre') ?>
 <script src="<?= base_url() ?>/assets/js/new_script/funciones.js"></script>
 <script>
   $(document).ready(function(){
@@ -738,6 +700,8 @@
       }
     });
   }
+
+ 
 </script>
 <!-- BEGIN PAGE LEVEL JS-->
 <script src="<?= base_url() ?>/assets/js/scripts/form-wizard.js"></script>
@@ -781,7 +745,19 @@
 
     </script>
 
-<script src="<?= base_url() ?>/assets/js/new_script/entidad.js"></script>
-  
 
-<?= view('layouts/footer_libre') ?>
+<script src="<?= base_url() ?>/assets/js/new_script/entidad.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function terminos(){
+    Swal.fire({
+      title: 'Términos y condiciones',
+      html:`<div style="max-height: 400px"><?= $terminos->text ?></div>`,
+      showCloseButton: false,
+      showCancelButton: false,
+      confirmButtonText: 'Entendido',
+      scrollbarPadding: true,
+      heightAuto: false
+    });
+  }
+</script>

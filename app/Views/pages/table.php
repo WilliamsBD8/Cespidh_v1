@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col s12">
             <div class="container">
-                <div class="section">
+                <!-- <div class="section"> -->
                     <div class="row">
                         <div class="col s12">
                             <div class="card">
@@ -76,7 +76,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                <!-- </div> -->
             </div>
         </div>
     </div>

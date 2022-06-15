@@ -1,25 +1,34 @@
-$(document).ready(function(){
+$(document).ready(function() {
     // Basic
     $('.dropify').dropify();
 
     // Translated
-    $('.dropify-fr').dropify({
+    $('.dropify-Es').dropify({
         messages: {
-            default: 'Glissez-déposez un fichier ici ou cliquez',
-            replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
-            remove:  'Supprimer',
-            error:   'Désolé, le fichier trop volumineux'
+            default: 'Arrastre y suelte un archivo aquí o haga clic.',
+            replace: 'Arrastre y suelte un archivo o haga clic para reemplazar',
+            remove: 'Borrar',
+            error: 'Ooops, sucedió algo malo.'
+        },
+        error: {
+            'fileSize': 'The file size is too big ({{ value }} max).',
+            'minWidth': 'The image width is too small ({{ value }}}px min).',
+            'maxWidth': 'The image width is too big ({{ value }}}px max).',
+            'minHeight': 'The image height is too small ({{ value }}}px min).',
+            'maxHeight': 'The image height is too big ({{ value }}px max).',
+            'imageFormat': 'The image format is not allowed ({{ value }} only).',
+            'fileExtension': 'El archivo no está permitido. Formato válido ({{ value }}).',
         }
     });
 
     // Used events
     var drEvent = $('.dropify-event').dropify();
 
-    drEvent.on('dropify.beforeClear', function(event, element){
-        return confirm("Do you really want to delete \"" + element.filename + "\" ?");
+    drEvent.on('dropify.beforeClear', function(event, element) {
+        return confirm("¿De verdad quieres borrar \"" + element.filename + "\" ?");
     });
 
-    drEvent.on('dropify.afterClear', function(event, element){
-        alert('File deleted');
+    drEvent.on('dropify.afterClear', function(event, element) {
+        alert('Archivo eliminado');
     });
 });

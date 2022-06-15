@@ -1,26 +1,4 @@
 <?= view('layouts/header') ?>
-<!-- <?= view('layouts/navbar_vertical') ?> -->
-
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/pages/data-tables.css">
-
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/flag-icon/css/flag-icon.min.css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/data-tables/css/jquery.dataTables.min.css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/data-tables/css/select.dataTables.min.css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/materialize-stepper/materialize-stepper.min.css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/pages/form-wizard.css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/css/table.css">
-
-
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/pages/page-faq.css">
-
-
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/vendors/sweetalert/sweetalert.css">
-
-
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/pages/app-file-manager.css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/pages/widget-timeline.css">
-<script src="<?= base_url() ?>/assets/js/vendors.min.js"></script>
 <script src="<?= base_url() ?>/assets/js/new_script/formulario.js"></script>
 <?= view('layouts/navbar_horizontal') ?>
 
@@ -30,14 +8,23 @@
   <div class="row">
     <div class="col s12 m12">
       <div class="container">
-        <div class="section">
-          <!-- Page Length Options -->
+        <h4 class="card-title center-align"><?= $formulario->title ?> - Documento <?= $documento->abreviacion.'-'.$documento->id_documento ?></h4>
+        <p class="card-title center-align"><b><?= $documento->descripcion ?></b></p>
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col m6"><a class="active" href="#edit">Editar documento</a></li>
+              <li class="tab col m6"><a href="#new">Cargar nuevo documento</a></li>
+            </ul>
+          </div>
+        </div>
+          <!-- Editar -->
+        <div class="section" id="edit">
           <div class="row">
             <div class="col s12 m12 l12">
               <div class="card-2" id="faq">
                 <div class="card-content">
-                  <h4 class="center-align"><?= $formulario->title.' - '.$documento->descripcion ?></h4>
-                  <form method="POST" action="<?= base_url(['cespidh', 'edit', 'document']) ?>" enctype="multipart/form-data">
+                  <form id="form-edit" method="POST" action="<?= base_url(['cespidh', 'edit', 'document']) ?>" enctype="multipart/form-data">
                     <input type="hidden" value="<?= $documento->id_documento ?>" name="id_documento">
                     <input type="hidden" value="<?= $formulario->id ?>" name="id_formulario">
                     <ul class="stepper linear" id="linearStepper0">
@@ -285,6 +272,98 @@
                         </li>
                       <?php endforeach ?>
                       <li class="step">
+                          <div class="step-title waves-effect">¿QUIÉN PRESENTA LA PETICION?</div>
+                          <div class="step-content">
+                              <div class="row">
+                                <input type="hidden" name="id" id="id">
+                                  <div class="input-field col m6 s12">
+                                      <label for="cedula">Cedula: <span class="red-text">*</span></label>
+                                      <input required type="text" class="validate autocomplete-usuarios_form" id="cedula" name="cedula">
+                                  </div>
+                                  <div class="input-field col m6 s12">
+                                      <label for="name">Nombre: <span class="red-text">*</span></label>
+                                      <input type="text" class="validate" id="name" name="name" required>
+                                  </div>
+                                  <div class="input-field col m6 s12">
+                                      <label for="ciudad">Ciudad: <span class="red-text">*</span></label>
+                                      <input required type="text" class="validate" id="ciudad" name="ciudad">
+                                  </div>
+                                  <div class="input-field col m6 s12">
+                                      <label for="direccion">Dirección: <span class="red-text">*</span></label>
+                                      <input required type="text" class="validate" id="direccion" name="direccion">
+                                  </div>
+                                  <div class="input-field col m6 s12">
+                                      <label for="phone">Numero de telefono: <span class="red-text">*</span></label>
+                                      <input required type="text" class="phone-input" id="phone" name="phone">
+                                  </div>
+                                  <div class="input-field col m6 s12">
+                                      <label for="email">Correo electronico: <span class="red-text">*</span></label>
+                                      <input required type="email" class="validate" id="email" name="email">
+                                  </div>
+                                  <div class="input-field col m6 s12">
+                                    <?php foreach($generos as $genero): ?>
+                                      <p>
+                                        <label>
+                                          <input id="genero_<?= $genero->id ?>" class="with-gap genero" value="<?= $genero->id ?>" name="genero" type="radio"/>
+                                          <span><?= $genero->name ?></span>
+                                        </label>
+                                      </p>
+                                    <?php endforeach ?>
+                                  </div>
+                                  <div class="input-field col m6 s12">
+                                    <select name="etnia" id="etnia">
+                                      <option id="etnia_vacio" selected value="" disabled>Seleccione grupo etnico</option>
+                                      <?php foreach ($etnias as $etnia): ?>
+                                        <option id="etnia_<?= $etnia->id ?>" value="<?= $etnia->id ?>"><?= $etnia->name ?></option>
+                                      <?php endforeach ?>
+                                      </select>
+                                    <label>¿Con cual de estos grupos te identificas?</label>
+                                  </div>
+                                  <div class="input-field col m6 s12">
+                                    <p>
+                                      <label>
+                                        <input type="checkbox" name="firma_<?= $formulario->id ?>" <?= $documento->firma == 'on' ? 'checked':'' ?>/>
+                                        <span>Autoriza firma (Crear firma digital)</span>
+                                      </label>
+                                    </p>
+                                    <p>
+                                      <label>
+                                        <input type="checkbox" name="terminos_<?= $formulario->id ?>" <?= $documento->terminos == 'on' ? 'checked':'' ?>/>
+                                        <span>Acepta términos y condiciones  <a href="javascript:void(0)" onclick="terminos();">Ver</a></span>
+                                      </label>
+                                    </p>
+                                    <p>
+                                      <label>
+                                        <input type="checkbox" name="help_<?= $formulario->id ?>" <?= $documento->help == 'on' ? 'checked':'' ?>/>
+                                        <span>Necesita ayuda en el proceso de verificación del documento</span>
+                                      </label>
+                                    </p>
+                                  </div>
+                              </div>
+                              <div class="step-actions">
+                                  <div class="row">
+                                      <div class="col m4 s12 mb-3">
+                                          <button class="red btn btn-reset" type="reset">
+                                              <i class="material-icons left">clear</i>Reset
+                                          </button>
+                                      </div>
+                                      <div class="col m4 s12 mb-3">
+                                          <button class="btn btn-light previous-step">
+                                              <i class="material-icons left">arrow_back</i>
+                                              Anterior
+                                          </button>
+                                      </div>
+                                      <div class="col m4 s12 mb-3">
+                                          <button class="waves-effect waves dark btn btn-primary" id="btn-update" onclick="update_user(<?= $key_2 ?>)" type="button">
+                                              Siguiente
+                                              <i class="material-icons right">arrow_forward</i>
+                                          </button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </li>
+                      <li class="step">
                         <div class="step-title waves-effect">Motivo de la edición</div>
                         <div class="step-content">
                             <div class="row">
@@ -308,7 +387,7 @@
                                         </button>
                                     </div>
                                     <div class="col m4 s12 mb-1">
-                                        <button class="waves-effect waves-dark btn btn-primary" type="submit">Submit</button>
+                                        <button class="waves-effect waves-dark btn btn-primary" type="button" onclick="guardar()">Submit</button>
                                     </div>
                                 </div>
                             </div>
@@ -321,6 +400,27 @@
             </div>
           </div>
         </div>
+        <div id="new">
+          <div class="row section padding-4">
+            <form id="new_document" action="<?= base_url(['cespidh', 'edit', 'new_document']) ?>" enctype='multipart/form-data' method="post">
+              <input type="hidden" name="id_documento" value="<?= $documento->id_documento ?>">
+              <div class="col s12">
+                <input type="file" name="new_document" id="input-file-now" class="dropify-Es" data-default-file="" data-allowed-file-extensions="pdf docx" />
+              </div>
+              <div class="input-field col s12">
+                <textarea id="motivo" class="materialize-textarea" name="observation"></textarea>
+                <label for="motivo">Motivo/Observación</label>
+              </div>
+            </form>
+            <div class="col s12">
+              <div class="div-center pb-1">
+                <button class="btn waves-effect waves-light blue" onclick="new_document()">Filtrar
+                  <i class="material-icons right">send</i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -328,29 +428,10 @@
 
 
 
+<!-- END PAGE LEVEL JS-->
 
-<script src="<?= base_url() ?>/assets/js/new_script/funciones.js"></script>
 
-<!-- BEGIN VENDOR JS-->
-
-<!-- BEGIN VENDOR JS-->
-<!-- BEGIN PAGE VENDOR JS-->
-<script src="<?= base_url() ?>/assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
-<script src="<?= base_url() ?>/assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?= base_url() ?>/assets/vendors/data-tables/js/dataTables.select.min.js"></script>
-
-<script src="<?= base_url() ?>/assets/vendors/materialize-stepper/materialize-stepper.min.js"></script>
-<!-- END PAGE VENDOR JS-->
-<!-- BEGIN THEME  JS-->
-<script src="<?= base_url() ?>/assets/js/plugins.js"></script>
-<script src="<?= base_url() ?>/assets/js/search.js"></script>
-<script src="<?= base_url() ?>/assets/js/custom/custom-script.js"></script>
-<script src="<?= base_url() ?>/assets/js/scripts/data-tables.js"></script>
-
-    
-<script src="<?= base_url() ?>/assets/vendors/sweetalert/sweetalert.min.js"></script>
-    
-<script src="<?= base_url() ?>/assets/js/scripts/extra-components-sweetalert.js"></script>
+<?= view('layouts/footer_libre') ?>
 <script>
   $(document).ready(function(){
     $('.tooltipped').tooltip();
@@ -360,40 +441,29 @@
     });
     $('.modal').modal();
   });
+  function user_aux(){
+    var data = <?= json_encode($user)?>;
+    return data;
+  }
+</script>
 
-  function delete_document(id){
-    swal({
-      title: `¿Esta seguro de eliminar el Documento # ${id}?`,
-      icon: 'warning',
-      dangerMode: true,
-      buttons: {
-        cancel: 'No',
-        delete: 'Si'
-      }
-    }).then(function (willDelete) {
-      if (willDelete) {
-        swal(`El Documento # ${id}!`, {
-          icon: "success",
-        });
-      } else {
-        swal("Your imaginary file is safe", {
-          title: 'Cancelled',
-          icon: "error",
-        });
-      }
+<script src="<?= base_url() ?>/assets/vendors/dropify/js/dropify.min.js"></script>
+
+<script src="<?= base_url() ?>/assets/js/scripts/form-file-uploads.js"></script>
+
+<script src="<?= base_url() ?>/assets/js/new_script/edit.js"></script>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function terminos(){
+    Swal.fire({
+      title: 'Términos y condiciones',
+      html:`<div style="max-height: 400px"><?= $terminos->text ?></div>`,
+      showCloseButton: false,
+      showCancelButton: false,
+      confirmButtonText: 'Entendido',
+      scrollbarPadding: true,
+      heightAuto: false
     });
   }
 </script>
-<!-- BEGIN PAGE LEVEL JS-->
-<script src="<?= base_url() ?>/assets/js/scripts/form-wizard.js"></script>
-
-
-<script src="<?= base_url() ?>/assets/vendors/formatter/jquery.formatter.min.js"></script>
-
-<script src="<?= base_url() ?>/assets/js/scripts/form-masks.js"></script>
-
-
-    <!-- END PAGE LEVEL JS-->
-  
-
-<?= view('layouts/footer') ?>

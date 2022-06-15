@@ -10,6 +10,7 @@ use App\Models\Etnia;
 use App\Models\Genero;
 use App\Models\User;
 use App\Models\Work;
+use App\Models\Terminos;
 use App\Models\TiposDocumento;
 use Config\Services;
 
@@ -44,7 +45,13 @@ class EntidadController extends BaseController
         $documentosM = new Documento();
         $where = '';
         $documentos = $documentosM
-            ->select('documento.*, users.*, documento_tipo.*, documento_estado.*, sedes.name as sede')
+            ->select('documento.*,
+                users.name,
+                users.cedula,
+                documento_tipo.descripcion,
+                documento_tipo.abreviacion,
+                documento_estado.*,
+                sedes.name as sede')
             ->join('users', 'documento.users_id = users.id')
             ->join('documento_tipo', 'documento.id_tipo = documento_tipo.id_tipo')
             ->join('documento_estado', 'documento.id_estado = documento_estado.id_estado')
@@ -65,8 +72,9 @@ class EntidadController extends BaseController
             $sedes[$document->sede] = null;
             $document->asignacion = $documentosM->Asignar($document->id_documento);
             if(!empty($document->asignacion))
-                $usuarios[$document->asignacion->name] = null;
+                $usuarios[$document->asignacion] = null;
         }
+        // return var_dump($documentos);
         $usuarios['No asignado'] = null;
         $usuarios['No necesita'] = null;
         $aux = [
@@ -90,8 +98,16 @@ class EntidadController extends BaseController
             ->groupBy(['id_estado'])
             ->get()->getResult();
 
-        $tiposDocumentosM = new TiposDocumento();
-        $tipos_documento = $tiposDocumentosM->get()->getResult();
+        $tipos_documento = $documentosM
+            ->select('id_tipo,
+            (select documento_tipo.descripcion from documento_tipo where (documento_tipo.id_tipo = documento.id_tipo)) AS descripcion')
+            ->groupBy(['id_tipo'])
+            ->get()->getResult();
+
+        $terminosM = new Terminos();
+        $terminos = $terminosM->get()->getFirstRow();
+
+        // return var_dump($tipos_documento);
 
         return view('entidad/entidades' , [
             'formularios'=> $formularios,
@@ -100,6 +116,7 @@ class EntidadController extends BaseController
             'documents' => $documentos,
             'estados' => $estados,
             'tipo_documento' => $tipos_documento,
+            'terminos' => $terminos
         ]);         
     }
 
@@ -110,20 +127,18 @@ class EntidadController extends BaseController
         $date_init = $this->request->getPost('date_init');
         $date_finish = $this->request->getPost('date_finish');
         $sede = $this->request->getPost('sede');
-
         $usuario = $this->request->getPost('usuario');
 
-        $post = $this->request->getPost();
-        // return var_dump($post);
-
         $documentosM = new Documento();
-        $documentsM = new Documento();
-        $formularioM = new Formularios();
-        $genero = new Genero();
-        $etnia = new Etnia();
 
         $parcial = $documentosM
-            ->select('documento.*, users.*, documento_tipo.*, documento_estado.*, sedes.name as sede')
+            ->select('documento.*,
+                users.name,
+                users.cedula,
+                documento_tipo.descripcion,
+                documento_tipo.abreviacion,
+                documento_estado.*,
+                sedes.name as sede')
             ->join('users', 'documento.users_id = users.id')
             ->join('documento_tipo', 'documento.id_tipo = documento_tipo.id_tipo')
             ->join('documento_estado', 'documento.id_estado = documento_estado.id_estado')
@@ -147,75 +162,40 @@ class EntidadController extends BaseController
                 $parcial = $parcial->where(['documento.help' => 'off']);
                 $data = $parcial->get()->getResult();
             }else{
+                $parcial = $parcial->where(['documento.help' => 'on']);
                 $data = $parcial->get()->getResult();
-                foreach ($data as $key => $document) {
+                foreach ($data as $document) {
                     $document->asignacion = $documentosM->Asignar($document->id_documento);
-                }
-                foreach ($data as $key_doc => $document) {
                     switch ($usuario) {
                         case 'No asignado':
-                            if(!empty($document->asignacion)){
-                                unset($data[$key_doc]);
+                            foreach ($data as $key_doc => $document) {
+                                if(!empty($document->asignacion)){
+                                    array_splice($data, $key_doc, 1);
+                                    break;
+                                }
                             }
-                            break;
+                        break;
                         default:
-                            if($document->asignacion->name != $usuario){
-                                unset($data[$key_doc]);;
+                            foreach ($data as $key_doc => $document) {
+                                if($document->asignacion != $usuario){
+                                    array_splice($data, $key_doc, 1);
+                                    break;
+                                }
                             }
-                            break;
+                        break;
                     }
+                        
                 }
             }
-            
+                
         }else{
             $data = $parcial->get()->getResult();
-            foreach ($data as $key => $document)
-                $document->asignacion = $documentosM->Asignar($document->id_documento);
+            foreach ($data as $key => $document) $document->asignacion = $documentosM->Asignar($document->id_documento);
         }
-        // var_dump($data);
-        // return;
-        $formularios = $formularioM
-            ->join('documento_tipo', 'documento_tipo.id_tipo = formularios.documento_tipo_id_tipo')
-            ->orderBy('orden', 'ASC')
-            ->get()->getResult();
-
-        foreach($formularios as $key => $formulario){
-            $formulario->secciones = $formularioM->Secciones($formulario->id);
-            if(!empty($formulario->secciones)){
-                foreach ($formulario->secciones as $key_2 => $seccion) {
-                    $seccion->preguntas = $formularioM->Preguntas($seccion->id);
-                    foreach($seccion->preguntas as $preguntadetalle){
-                        $preguntadetalle->detalle = $formularioM->PreguntasDetalle($preguntadetalle->id);
-                        foreach ($preguntadetalle->detalle as $detalleHijo) {
-                            $detalleHijo->detalle = $formularioM->PreguntaDetalleHijo($detalleHijo->id);
-                        }
-                    }
-                }
-            }else unset($formularios[$key]);
-        }
-
-        
-        $etnia = $etnia->orderBy('orden', 'ASC')->get()->getResult();
-        $genero = $genero->orderBy('orden', 'ASC')->get()->getResult();
-        
-        $estados = $documentsM
-            ->select('id_estado, count(*) as total,
-            (select documento_estado.nombre from documento_estado where (documento_estado.id_estado = documento.id_estado)) AS nombre, 
-            (select documento_estado.icono from documento_estado where (documento_estado.id_estado = documento.id_estado)) AS icono')
-            ->groupBy(['id_estado'])
-            ->get()->getResult();
-
-        $tiposDocumentosM = new TiposDocumento();
-        $tipos_documento = $tiposDocumentosM->get()->getResult();
-        // return var_dump(isset($post));
-        return view('entidad/entidades' , [
-            'formularios'=> $formularios,
-            'etnias' => $etnia,
-            'generos' => $genero,
+        $estados = $documentosM->select('id_estado')->groupBy(['id_estado'])->get()->getResult();
+        return json_encode([
             'documents' => $data,
-            'estados' => $estados,
-            'tipo_documento' => $tipos_documento,
-            'data' => $post
+            'estados' => $estados
         ]); 
     }
 }

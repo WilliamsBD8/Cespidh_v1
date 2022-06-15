@@ -60,15 +60,21 @@ $routes->group('cespidh', function ($routes){
 	// Edit	
 	$routes->get('edit/document/(:segment)', 'DocumentController::view_edit/$1');
 	$routes->post('edit/document', 'DocumentController::edit_document');
+	$routes->post('edit/new_document', 'DocumentController::new_document');
 
 	// Historial
 	$routes->get('historial/document/(:segment)', 'HistorialController::index/$1');
 	$routes->post('historial/work', 'HistorialController::create');
 	$routes->get('activity', 'HistorialController::index_activity');
+	$routes->get('docs/(:segment)/(:segment)', 'HistorialController::download/$1/$2');
 
 	$routes->get('entidad', 'EntidadController::index');
 	$routes->post('entidad/search', 'EntidadController::search');
 	$routes->get('entidad/search', 'EntidadController::search');
+
+	//Update user
+	$routes->post('update/user', 'UserController::update_perfil_doc');
+	$routes->post('create/user', 'UserController::create_perfil_doc');
 });
 
 /**

@@ -11,7 +11,7 @@ class Work extends Model
     protected $primaryKey = 'id';
     protected $table = 'work';
 
-    protected $allowedFields    = ['id', 'created_at', 'finish_at', 'observation', 'document', 'documento_id_documento', 'users_id', 'user_aux', 'work_type_id', 'status'];
+    protected $allowedFields    = ['id', 'created_at', 'finish_at', 'observation', 'document', 'document_2', 'documento_id_documento', 'users_id', 'user_aux', 'work_type_id', 'status'];
 
     public function User($id){
         $user = $this->builder('users')->where(['id'=>$id])->get()->getResult();

@@ -9,9 +9,7 @@ $(function() {
 
     $('table.display').DataTable({
         "responsive": false,
-        order: [
-            [0, 'desc']
-        ],
+        order: false,
         "lengthMenu": [
             [10, 25, 50, -1],
             [10, 25, 50, "Todo"]

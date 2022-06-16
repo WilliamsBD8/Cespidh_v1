@@ -59,14 +59,16 @@
                                     <?php if($work->work_type_id != 2): ?>
                                       <div class="center-align">
                                         <?php $carpeta = $work->work_type_id == 3 ? 'upload' : 'pdf' ?>
-                                        <?php if(preg_match('/pdf/', $work->document)): ?>
-                                          <a class="a-icon red-text" href="<?= base_url(['docs', $carpeta, $work->document]) ?>" target="_blank">
-                                            <i class="fa-regular fa-file-pdf"></i>
-                                          </a>
-                                        <?php else: ?>
-                                          <a class="a-icon blue-text" href="<?= base_url(['cespidh', 'docs',$work->work_type_id, $work->document]) ?>" target="_blank">
-                                            <i class="fa-regular fa-file-word"></i>
-                                          </a>
+                                          <?php if(!empty($work->document)): ?>
+                                          <?php if(preg_match('/pdf/', $work->document)): ?>
+                                            <a class="a-icon red-text" href="<?= base_url(['docs', $carpeta, $work->document]) ?>" target="_blank">
+                                              <i class="fa-regular fa-file-pdf"></i>
+                                            </a>
+                                          <?php else: ?>
+                                            <a class="a-icon blue-text" href="<?= base_url(['cespidh', 'docs',$work->work_type_id, $work->document]) ?>" target="_blank">
+                                              <i class="fa-regular fa-file-word"></i>
+                                            </a>
+                                          <?php endif ?>
                                         <?php endif ?>
                                         <?php if(!empty($work->document_2)): ?>
                                           <?php if(preg_match('/pdf/', $work->document_2)): ?>

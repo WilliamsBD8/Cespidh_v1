@@ -68,7 +68,7 @@ class EntidadController extends BaseController
         
         foreach ($documentos as $key => $document) {
             $user[$document->name] = null;
-            $ids[$document->id] = null;
+            $ids[$document->cedula] = null;
             $sedes[$document->sede] = null;
             $document->asignacion = $documentosM->Asignar($document->id_documento);
             if(!empty($document->asignacion))
@@ -147,8 +147,8 @@ class EntidadController extends BaseController
 
         if(!empty($nombre))
             $parcial = $parcial->like(['users.name' => $nombre]);
-        if(!empty($cedula))
-            $parcial = $parcial->where(['documento.users_id' => $cedula]);
+        if($cedula != null )
+            $parcial = $parcial->where(['users.cedula' => $cedula]);
         if(!empty($type_document))
             $parcial = $parcial->where(['documento.id_tipo' => $type_document]);
         if(!empty($date_init))

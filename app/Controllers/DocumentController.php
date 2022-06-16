@@ -34,6 +34,8 @@ class DocumentController extends BaseController
             'id_estado' => 1,
             'users_id' => $id_user,
             'help' => !empty($this->request->getPost('help_'.$id_formulario)) ? $this->request->getPost('help_'.$id_formulario) : 'off',
+            'terminos' => !empty($this->request->getPost('terminos_'.$id_formulario)) ? $this->request->getPost('terminos_'.$id_formulario) : 'off',
+            'firma' => !empty($this->request->getPost('firma_'.$id_formulario)) ? $this->request->getPost('firma_'.$id_formulario) : 'off',
             'sedes_id' => $user->sedes_id
         ];
         $workM = new Work();
@@ -451,8 +453,10 @@ class DocumentController extends BaseController
                     return $name;
                 }
                 // return ;
-            }else
+            }else{
+                if($type == 3 || $type == 4) return null;
                 return view('errors/html/plantilla');
+            }
         }else{
             return view('errors/html/error_404');
         }

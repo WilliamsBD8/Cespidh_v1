@@ -62,7 +62,7 @@ class UserController extends BaseController
         $id = $this->request->getPost('id');
         $validation = Services::validation();
         $rule = [
-            'cedula' => 'required|is_unique[users.id, id, '.$id.']',
+            'cedula' => 'required|is_unique[users.cedula, id, '.$id.']',
             'email' => 'required|is_unique[users.email, id, '.$id.']',
             'phone' => 'required|is_unique[users.phone, id, '.$id.']',
             'ciudad' => 'required',

@@ -33,7 +33,7 @@ class TableController extends BaseController
             switch ($component[0]->table) {
                 case 'users':
                     $this->crud->displayAs([
-                        'id'                    => 'Cédula',
+                        'cedula'                    => 'Cédula',
                         'name'                  => 'Nombre',
                         'username'              => 'Usuario',
                         'email'                 => 'Email',
@@ -46,9 +46,9 @@ class TableController extends BaseController
                         'grupo_etnia_id'        => 'Grupo etnico',
                     ]);
                     $this->crud->fieldType('password', 'password');
-                    $this->crud->columns(['id', 'name', 'username', 'email', 'status', 'role_id', 'photo', 'ciudad', 'direccion', 'phone', 'created_at', 'sedes_id', 'genero_id', 'grupo_etnia_id']);                
+                    $this->crud->columns(['cedula', 'name', 'username', 'email', 'status', 'role_id', 'photo', 'ciudad', 'direccion', 'phone', 'created_at', 'sedes_id', 'genero_id', 'grupo_etnia_id']);                
                     $this->crud->addFields([
-                        'id', 'name', 'username', 'email', 'status', 'role_id', 'photo', 'ciudad', 'direccion', 'phone', 'sedes_id', 'genero_id', 'grupo_etnia_id'
+                        'cedula', 'name', 'username', 'email', 'status', 'role_id', 'photo', 'ciudad', 'direccion', 'phone', 'sedes_id', 'genero_id', 'grupo_etnia_id'
                         ]);
                     $this->crud->unsetDelete();
                     $this->crud->unsetEditFields(['role_id', 'created_at']);
@@ -58,17 +58,17 @@ class TableController extends BaseController
                                 ->setMessage("No se permiten espacion en el campo 'Usuario'");
                         $password = $stateParameters->data['password'];
                         if (!strstr($password, '[BEFORE UPDATE]')) {
-                            $stateParameters->data['password'] = md5($password);
+                            $stateParameters->data['password'] = password_hash($password, PASSWORD_DEFAULT);
                         }
                         return $stateParameters;
                     });
-                    $this->crud->uniqueFields(['id', 'username', 'email']);
+                    $this->crud->uniqueFields(['cedula', 'username', 'email', 'phone']);
                     $this->crud->callbackBeforeInsert(function ($stateParameters) {
                         if (strpos($stateParameters->data['username'], " "))
                             return (new \GroceryCrud\Core\Error\ErrorMessage())
                                 ->setMessage("No se permiten espacion en el campo 'Usuario'");
-                        $stateParameters->insertId = $stateParameters->data['id'];
-                        $stateParameters->data['password'] = md5($stateParameters->data['id']);
+                        // $stateParameters->insertId = $stateParameters->data['id'];
+                        $stateParameters->data['password'] = password_hash($stateParameters->data['cedula'], PASSWORD_DEFAULT);
                         // $stateParameters->data['created_at'] = date('Y-m-d H:i:s');
                         // return (new \GroceryCrud\Core\Error\ErrorMessage())
                         //         ->setMessage($stateParameters->data['id']);
@@ -106,6 +106,7 @@ class TableController extends BaseController
                     $this->crud->setRelation('formulario_id', 'formularios', 'title');
                     $this->crud->setDependentRelation('secciones_id', 'formulario_id', 'formulario_id');
                     $this->crud->uniqueFields(['campo_formulario']);
+                    $this->crud->setTexteditor(['pregunta', 'descripcion', 'titulo']);
                     break;                     
 
                 case 'formularios':                    
